@@ -1,0 +1,54 @@
+﻿@model AddFriendViewModel
+
+@{
+    ViewBag.Title = "Add new friends";
+    ViewBag.Header = "NewFriend";
+    ViewBag.Footer = "Contacts";
+}
+
+<link href="~/css/addfriend.css" rel="stylesheet" />
+
+<div class="friends">
+    <div class="friends__search-panel">
+        <input placeholder="Search" type="text">
+    </div>
+    <div class="friends__list">
+        @foreach (var user in Model.NotFriends)
+        {
+            <div asp-controller="Chat" asp-action="Index" asp-route-chatId="1" class="friends__list-item">
+                <a href="#">
+                    <img src="~/img/contacts-avatar.png" alt="">
+                    <div class="friends__user-desc">
+                        <h3>@user.UserName</h3>
+                    </div>
+                </a>
+                <form method="post" target="dummyframe">
+                    <input type="hidden" name="userId" value="@user.Id" />
+                    @if (Model.RequestsFrom.Contains(user))
+                    {
+                        <button asp-action="ConfirmFriendRequest" asp-controller="Home">
+                            <img src="~/img/check_big.svg" alt="" />
+                        </button>
+                        <button asp-action="DeleteFriendRequest" asp-controller="Home">
+                            <img src="~/img/close_big.svg" alt="" />
+                        </button>
+                    }
+                    else if (Model.RequestsTo.Contains(user))
+                    {
+                        <button asp-action="DeleteFriendRequest" asp-controller="Home">
+                            <img src="~/img/check_big.svg" alt="" />
+                        </button>
+                    }
+                    else
+                    {
+                        <button asp-action="SendFriendRequest" asp-controller="Home">
+                            <img src="~/img/user_plus.svg" alt="" />
+                        </button>
+                    }
+                </form>
+
+                <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+            </div>
+        }
+    </div>
+</div>

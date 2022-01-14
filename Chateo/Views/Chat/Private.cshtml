@@ -1,0 +1,86 @@
+﻿@model Chat
+
+@{
+    ViewBag.Title = "Chat"; 
+}
+
+<link rel="stylesheet" asp-href-include="css/chat.css">
+
+<div class="chat">
+    <div class="chat__message-history" id="chat-history">
+        @foreach (var message in Model.Messages)
+        {
+            if (message.UserId == ViewBag.OtherUserId)
+            {
+                <div class="chat__other-message">
+                    <div class="chat__other-message-content">
+                        <p>@message.Text</p>
+                        <div class="chat__message-desc">
+                            <p>16:50</p>
+                            <p>·</p>
+                            <p>Read</p>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="chat__self-message">
+                    <div class="chat__self-message-content">
+                        <p>@message.Text</p>
+                        <div class="chat__message-desc">
+                            <p>16:50</p>
+                            <p>·</p>
+                            <p>Read</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/messageBuilder.js"></script>
+    <script>
+        let chatHistory = document.getElementById("chat-history");
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+    </script>
+    <script>
+        const otherUserId = "@ViewBag.OtherUserId";
+
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/Chathub")
+            .build();
+
+        hubConnection.start()
+            .then(function () {
+                hubConnection.invoke("JoinChat", "@Model.Id");
+            });
+
+        hubConnection.on("ReceiveMessage", function (text, userid) {
+            let messageBlock;
+
+            if (userid == otherUserId) {
+                messageBlock = CreateOtherMessage(text);
+            }
+            else {
+                messageBlock = CreateSelfMessage(text);
+            }
+
+            document.getElementById("chat-history").appendChild(messageBlock);
+
+            messageBlock.scrollIntoView();
+        });
+    </script>
+    <script>
+        function sendMessageFormSubmit() {
+            $('#sendMessageForm').submit();
+            $('#send-message').val('');
+        }
+
+        document.getElementById('send-button').addEventListener('click', sendMessageFormSubmit);
+    </script>
+}

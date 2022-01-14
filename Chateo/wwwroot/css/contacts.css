@@ -1,0 +1,91 @@
+@import url(nullablestyle.css);
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
+body {
+    max-width: 375px;
+    margin: 0 auto;
+}
+
+.contacts {
+    padding-top: 22px;
+    background-color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contacts__search-panel {
+    padding-bottom: 16px;
+    margin: 0 auto;
+    box-shadow: 0px 1px 24px rgba(0, 0, 0, 0.04);
+}
+
+.contacts__search-panel input {
+    border-radius: 4px;
+    width: 327px;
+    height: 36px;
+    display: block;
+    margin: 0 auto;
+    background: #F7F7FC;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 6px 8px;
+}
+
+.contacts__list {
+    padding-top: 16px;
+    overflow-y: scroll;
+}
+
+.contacts__list::-webkit-scrollbar {
+    display: none;
+}
+
+.contacts__list-item,
+.contacts__list-empty-item {
+    display: flex;
+    flex-direction: row;
+    width: 327px;
+    margin: 0 auto;
+    align-items: flex-start;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    transition: all 0.2s ease;
+}
+
+.contacts__list-item h3,
+.contacts__list-empty-item h3 {
+    color: black;
+}
+
+.contacts__list-item:hover,
+.contacts__list-empty-item:hover {
+    background: #F7F7FC;
+}
+
+.contacts__list-item img,
+.contacts__list-empty-item img {
+    display: block;
+    margin-right: 12px;
+}
+
+.contacts__user-desc {
+    padding-top: 2px;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.contacts__user-desc span {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 20px;
+    color: #ADB5BD;
+}

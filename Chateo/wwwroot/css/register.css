@@ -1,0 +1,74 @@
+@import url(nullablestyle.css);
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
+body {
+    max-width: 375px;
+    margin: 0 auto;
+}
+
+.register-box {
+    padding-top: 169px;
+}
+
+.register-box form {
+    margin-bottom: 48px;
+}
+
+h2 {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 30px;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.register-box p {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    color: #0F1828;
+    margin-bottom: 48px;
+}
+
+.register-box input[type="text"],
+.register-box input[type="password"] {
+    display: block;
+    margin: 0 auto;
+    width: 250px;
+    border-radius: 4px;
+    padding: 6px 8px;
+    background: #F7F7FC;
+    color: #0F1828;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 20px;
+}
+
+.register-button {
+    display: block;
+    margin: 0 auto;
+    margin-top: 61px;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 28px;
+    text-align: center;
+    color: #F7F7FC;
+    background: #002DE3;
+    padding: 12px 101px;
+    border-radius: 30px;
+    transition: all 0.2s ease;
+}
+
+.register-button:hover {
+    background: #001A83;
+}

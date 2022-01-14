@@ -1,0 +1,25 @@
+﻿@model RegisterViewModel
+@{ Layout = null; }
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat</title>
+    <link rel="stylesheet" asp-href-include="css/register.css">
+</head>
+
+<body>
+    <div class="register-box">
+        <h2>Create an account</h2>
+        <p>Please enter username and password to register</p>
+        <form method="post" asp-controller="Account" asp-action="Register">
+            <input asp-for="UserName" placeholder="Username" type="text">
+            <input asp-for="Password" placeholder="Password" type="password">
+            <input type="submit" value="Continue" class="register-button">
+        </form>
+        <p>Already have login and password? <a asp-controller="Account" asp-action="Login">Sign in</a></p>
+    </div>
+</body>
+
+</html>

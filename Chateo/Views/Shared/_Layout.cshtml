@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+    <link rel="stylesheet" href="~/css/main.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <main class="main-container">
+        <div class="header">
+            @await Component.InvokeAsync("Header")
+        </div>
+        <div class="content-container">
+            @RenderBody()
+        </div>
+        <div class="footer">
+            @await Component.InvokeAsync("Footer")
+        </div>
+    </main>
+    @RenderSection("scripts", false)
+    <script src="~/lib/jquery/jquery.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+@import url(nullablestyle.css);
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
+body {
+    max-width: 375px;
+    margin: 0 auto;
+}
+
+.chats {
+    background-color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chats__search-panel {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin: 0 auto;
+    box-shadow: 0px 1px 24px rgba(0, 0, 0, 0.04);
+}
+
+.chats__search-panel input {
+    border-radius: 4px;
+    width: 327px;
+    height: 36px;
+    display: block;
+    margin: 0 auto;
+    background: #F7F7FC;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 6px 8px;
+}
+
+.chats__list {
+    overflow-y: scroll;
+}
+
+.chats__list::-webkit-scrollbar {
+    display: none;
+}
+
+.chats__list-item {
+    display: flex;
+    flex-direction: row;
+    width: 327px;
+    margin: 0 auto;
+    align-items: flex-start;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    transition: all 0.2s ease;
+}
+
+.chats__list-item h3 {
+    color: black;
+}
+
+.chats__list-item:hover {
+    background: #F7F7FC;
+}
+
+.chats__list-item img {
+    display: block;
+    margin-right: 12px;
+}
+
+.chats__user-desc {
+    padding-top: 2px;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.chats__user-desc span {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 20px;
+    color: #ADB5BD;
+}
+
+.chats__story-container {
+    height: 108px;
+    margin: 0 24px;
+    padding: 16px 0;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    border-bottom: 1px solid #EDEDED;
+}
+
+.chats__story-container::-webkit-scrollbar {
+    display: none;
+}
+
+.chats__story-item {
+    display: inline-block;
+    margin-left: 8px;
+    margin-right: 8px;
+    width: 56px;
+    height: 76px;
+}
+
+.chats__story-item img {
+    width: 56px;
+    height: 56px;
+}
+
+.chats__story-item p {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 16px;
+    color: #0F1828;
+}

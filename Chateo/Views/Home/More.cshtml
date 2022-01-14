@@ -1,0 +1,75 @@
+﻿@{ ViewBag.Title = "More"; }
+
+<link rel="stylesheet" asp-href-include="css/more.css">
+
+<div class="more">
+    <div class="more__links-list">
+        <div class="more__links-group">
+            <a href="" class="more__main-item">
+                <div class="more__item-info">
+                    <img class="more__user-avatar" src="~/img/user-default.png" alt="" />
+                    <div class="more__item-desc">
+                        <p>Your name</p>
+                        <p class="more__item-secondary">yourmail@box.ru</p>
+                    </div>
+                </div>
+                <img src="~/img/chevron_right.svg" alt="" />
+            </a>
+        </div>
+        <div class="more__links-group">
+            <a href="" class="more__link-item">
+                <div class="more__item-desc">
+                    <img src="~/img/user.svg" alt="" />
+                    <span>Account</span>
+                </div>
+                <img src="~/img/chevron_right.svg" alt="" />
+            </a>
+            <a href="" class="more__link-item">
+                <div class="more__item-desc">
+                    <img src="~/img/message_circle.svg" alt="" />
+                    <span>Chats</span>
+                </div>
+                <img src="~/img/chevron_right.svg" alt="" />
+            </a>
+        </div>
+        <div class="more__links-group">
+            <a href="" class="more__link-item">
+                <div class="more__item-desc">
+                    <img src="~/img/sun.svg" alt="" />
+                    <span>Appereance</span>
+                </div>
+                <img src="~/img/chevron_right.svg" alt="" />
+            </a>
+            <a href="" class="more__link-item">
+                <div class="more__item-desc">
+                    <img src="~/img/notification_outline.svg" alt="" />
+                    <span>Notification</span>
+                </div>
+                <img src="~/img/chevron_right.svg" alt="" />
+            </a>
+            <a href="" class="more__link-item">
+                <div class="more__item-desc">
+                    <img src="~/img/user.svg" alt="" />
+                    <span>Privacy</span>
+                </div>
+                <img src="~/img/chevron_right.svg" alt="" />
+            </a>
+            <a href="" class="more__link-item">
+                <div class="more__item-desc">
+                    <img src="~/img/folder.svg" alt="" />
+                    <span>Data usage</span>
+                </div>
+                <img src="~/img/chevron_right.svg" alt="" />
+            </a>
+        </div>
+        <div class="more__links-group">
+            <a asp-action="Logout" asp-controller="Account" class="more__link-item danger-more-link-item">
+                <div class="more__item-desc">
+                    <img src="~/img/exit.svg" alt="" />
+                    <span>Logout</span>
+                </div>
+                <img src="~/img/chevron_right.svg" alt="" />
+            </a>
+        </div>
+    </div>
+</div>

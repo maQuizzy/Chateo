@@ -1,0 +1,86 @@
+@import url(nullablestyle.css);
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
+body {
+    max-width: 375px;
+    margin: 0 auto;
+}
+
+.more {
+    background-color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.more::-webkit-scrollbar {
+    display: none;
+}
+
+.more__links-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+    padding: 8px 16px;
+}
+
+.more__link-item {
+    padding: 8px 16px;
+    margin-bottom: 8px;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+}
+
+.more__link-item:hover {
+    background: #F7F7FC;
+}
+
+.more__main-item {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    color: black;
+    display: flex;
+    padding: 8px 16px;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+}
+
+.more__main-item:hover {
+    background: #F7F7FC;
+}
+
+.more__user-avatar {
+    border-radius: 25px;
+    margin-right: 20px;
+}
+
+.more__item-secondary {
+    color: #ADB5BD;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.more__item-info {
+    display: flex;
+    align-content: flex-start;
+}
+
+.danger-more-link-item {
+    color: #E94242;
+}
+
+.danger-more-link-item img {
+    filter: invert(28%) sepia(61%) saturate(1131%) hue-rotate(323deg) brightness(122%) contrast(106%);
+}

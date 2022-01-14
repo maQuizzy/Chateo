@@ -1,0 +1,111 @@
+@import url(nullablestyle.css);
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
+.footer {
+    height: 56px;
+}
+
+.footer__menu {
+    height: 100%;
+    width: 343px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    background: #FFFFFF;
+    box-shadow: 0px -1px 24px rgba(0, 0, 0, 0.04);
+}
+
+.footer__menu a {
+    width: 58px;
+}
+
+.footer__plus-button {
+    margin-right: 12px;
+}
+
+.footer__menu img {
+    display: block;
+    margin: 0 auto;
+    transition: all 0.2s ease;
+    filter: invert(8%) sepia(50%) saturate(715%) hue-rotate(179deg) brightness(91%) contrast(97%);
+}
+
+.footer__menu img:hover {
+    filter: invert(13%) sepia(100%) saturate(4959%) hue-rotate(232deg) brightness(84%) contrast(116%);
+}
+
+.selected-footer-button {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    height: 24px;
+    width: 58px;
+}
+
+.footer-selected-dot {
+    display: block;
+    background: black;
+    height: 4px;
+    width: 4px;
+    border-radius: 2px;
+    margin: 0 auto;
+}
+
+.footer-selected-name {
+    display: block;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 4px;
+    margin-top: -2px;
+}
+
+.footer__menu input {
+    width: 279px;
+    height: 36px;
+    background: #F7F7FC;
+    border-radius: 4px;
+    margin-right: 12px;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    color: #0F1828;
+    padding: 6px 8px;
+}
+
+.footer__menu form {
+    display: flex;
+}
+
+.footer__plus-button {
+    margin-right: 12px;
+}
+
+.footer__plus-button img {
+    transition: all 0.2s ease;
+    filter: invert(8%) sepia(48%) saturate(715%) hue-rotate(179deg) brightness(91%) contrast(97%);
+}
+
+.footer__plus-button img:hover {
+    filter: invert(13%) sepia(100%) saturate(4959%) hue-rotate(232deg) brightness(84%) contrast(116%);
+}
+
+.footer__send-button {
+    background: none;
+}
+
+.footer__send-button img {
+    filter: invert(15%) sepia(82%) saturate(3014%) hue-rotate(224deg) brightness(72%) contrast(118%);
+    transition: all 0.2s ease;
+}
+
+.footer__send-button img:hover {
+    filter: invert(13%) sepia(100%) saturate(4959%) hue-rotate(232deg) brightness(84%) contrast(116%);
+}

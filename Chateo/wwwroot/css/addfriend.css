@@ -1,0 +1,188 @@
+@import url(nullablestyle.css);
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
+body {
+    max-width: 375px;
+    margin: 0 auto;
+}
+
+.header {
+    height: 56px;
+}
+
+.header__menu {
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 327px;
+}
+
+.header__back-button {
+    margin-right: 8px;
+}
+
+.header__title {
+    margin-right: 8px;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.friends {
+    padding-top: 22px;
+    background-color: white;
+    height: calc(100% - 56px - 56px);
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    height: 56px;
+}
+
+.footer__menu {
+    height: 100%;
+    width: 343px;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    background: #FFFFFF;
+    box-shadow: 0px -1px 24px rgba(0, 0, 0, 0.04);
+}
+
+.footer a {
+    width: 58px;
+}
+
+.footer__plus-button {
+    margin-right: 12px;
+}
+
+.footer__menu img,
+.header__menu img {
+    display: block;
+    margin: 0 auto;
+    transition: all 0.2s ease;
+    filter: invert(8%) sepia(50%) saturate(715%) hue-rotate(179deg) brightness(91%) contrast(97%);
+}
+
+.footer__menu img:hover,
+.header__menu img:hover {
+    filter: invert(13%) sepia(100%) saturate(4959%) hue-rotate(232deg) brightness(84%) contrast(116%);
+}
+
+.footer__friends-button {
+    margin-right: 84px;
+}
+
+.footer__friends-button {
+    margin-right: 84px;
+}
+
+.friends__search-panel {
+    padding-bottom: 16px;
+    margin: 0 auto;
+    box-shadow: 0px 1px 24px rgba(0, 0, 0, 0.04);
+}
+
+.friends__search-panel input {
+    border-radius: 4px;
+    width: 327px;
+    height: 36px;
+    display: block;
+    margin: 0 auto;
+    background: #F7F7FC;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 6px 8px;
+}
+
+.friends__list {
+    padding-top: 16px;
+    overflow-y: scroll;
+}
+
+.friends__list::-webkit-scrollbar {
+    display: none;
+}
+
+.friends__list-item,
+.friends__list-empty-item {
+    display: flex;
+    flex-direction: row;
+    width: 327px;
+    margin: 0 auto;
+    align-items: stretch;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+}
+
+.friends__list-item a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    display: flex;
+    width: 80%;
+    transition: all 0.2s ease;
+}
+
+.friends__list-item form {
+    width: 20%;
+    text-align: center;
+    align-items: center;
+    display: flex;
+}
+
+.friends__list-item button {
+    background: white;
+    display: inline-block;
+    padding: 5px;
+    height: 34px;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+}
+
+.friends__list-item button img {
+    margin-right: 0;
+}
+
+.friends__list-item h3,
+.friends__list-empty-item h3 {
+    color: black;
+}
+
+.friends__list-item a:hover,
+.friends__list-item form button:hover,
+.friends__list-empty-item a:hover {
+    background: #F7F7FC;
+}
+
+.friends__list-item img,
+.friends__list-empty-item img {
+    display: block;
+    margin-right: 12px;
+}
+
+.friends__user-desc {
+    padding-top: 2px;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.friends__user-desc span {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 20px;
+    color: #ADB5BD;
+}

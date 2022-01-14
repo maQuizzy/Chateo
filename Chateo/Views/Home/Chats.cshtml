@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Chat>
+
+@{ ViewBag.Title = "Chats"; }
+
+<link rel="stylesheet" href="~/css/chats.css">
+
+<div class="chats">
+    <div class="chats__header">
+        <div class="chats__story-container">
+            <div class="chats__story-item">
+                <img src="~/img/contacts-avatar.png" alt="">
+                <p>Story name</p>
+            </div>
+            <div class="chats__story-item">
+                <img src="~/img/contacts-avatar.png" alt="">
+                <p>Story name</p>
+            </div>
+            <div class="chats__story-item">
+                <img src="~/img/contacts-avatar.png" alt="">
+                <p>Story name</p>
+            </div>
+            <div class="chats__story-item">
+                <img src="~/img/contacts-avatar.png" alt="">
+                <p>Story name</p>
+            </div>
+            <div class="chats__story-item">
+                <img src="~/img/contacts-avatar.png" alt="">
+                <p>Story name</p>
+            </div>
+            <div class="chats__story-item">
+                <img src="~/img/contacts-avatar.png" alt="">
+                <p>Story name</p>
+            </div>
+        </div>
+        <div class="chats__search-panel">
+            <input placeholder="Search" type="text">
+        </div>
+    </div>
+    <div class="chats__list">
+        @foreach (var chat in Model)
+        {
+            <a asp-controller="Chat" asp-action="Index" asp-route-chatId="@chat.Id" class="chats__list-item">
+                <img src="~/img/contacts-avatar.png" alt="">
+                <div class="chats__user-desc">
+                    <h3>@chat.Title</h3>
+                    @if (chat.Messages.Count > 0)
+                    {
+                        <span>@chat.Messages.Last().Text</span>
+                    }
+                    else
+                    {
+                        <span></span>
+                    }
+                </div>
+            </a>
+        }
+    </div>
+</div>

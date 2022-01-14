@@ -1,0 +1,78 @@
+﻿@model Chat
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat</title>
+    <link rel="stylesheet" asp-href-include="css/chat.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="header__menu">
+            <a class="header__back-button" href=""><img src="~/img/chevron_left.svg" alt=""></a>
+            <p class="header__title"></p>
+            <div class="header__buttons">
+                <a href=""><img src="~/img/search.svg" alt=""></a>
+                <a href=""><img src="~/img/hamburger.svg" alt=""></a>
+            </div>
+        </div>
+    </div>
+    <div class="chat">
+        <div class="chat__message-history">
+            <div class="chat__self-message">
+                <div class="chat__self-message-content">
+                    <p>Good morning</p>
+                    <div class="chat__message-desc">
+                        <p>16:50</p>
+                        <p>·</p>
+                        <p>Read</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chat__self-message">
+                <div class="chat__self-message-content">
+                    <p>androxus</p>
+                    <div class="chat__message-desc">
+                        <p>16:50</p>
+                        <p>·</p>
+                        <p>Read</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chat__other-message">
+                <div class="chat__other-message-content">
+                    <p>Hi</p>
+                    <div class="chat__message-desc">
+                        <p>16:50</p>
+                        <p>·</p>
+                        <p>Read</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer__menu">
+            <a class="footer__plus-button" href=""><img src="~/img/plus.svg" alt=""></a>
+            <form method="post" asp-action="SendMessage" target="dummyframe">
+                <input name="messageText" id="send-message" type="text">
+                <input name="to" type="hidden" value="" />
+                <button id="send-button" class="footer__send-button" asp-action="SendMessage"><img src="~/img/send-alt-filled.svg" alt=""></button>
+            </form>
+        </div>
+    </div>
+
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/Chathub")
+            .build();
+
+        hubConnection.start();
+    </script>
+</body>
+</html>

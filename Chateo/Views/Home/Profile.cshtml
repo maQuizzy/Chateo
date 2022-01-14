@@ -1,0 +1,19 @@
+﻿@model Chateo.Models.User
+
+@{ 
+    ViewBag.Title = "Profile";
+    ViewBag.Footer = "Contacts";
+}
+
+<link href="~/css/profile.css" rel="stylesheet" />
+
+<div class="profile">
+    <img class="profile__avatar" src="~/img/example-avatar.jpg" alt="">
+    <div class="profile__desc">
+        <p>Maxim Saraev</p>
+        <p class="secondary-desc">Quizzy</p>
+    </div>
+    <div class="profile-links">
+        <a href="#"><img src="~/img/message_circle.svg" alt=""> Send message</a>
+    </div>
+</div>

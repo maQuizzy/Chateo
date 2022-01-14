@@ -10,10 +10,6 @@
       "provider": "unpkg",
       "library": "@microsoft/signalr@6.0.1",
       "destination": "wwwroot/lib/microsoft/signalr/"
-    },
-    {
-      "library": "barba.js@1.0.0",
-      "destination": "wwwroot/lib/barba.js/"
     }
   ]
 }

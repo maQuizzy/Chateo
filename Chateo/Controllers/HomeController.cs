@@ -34,6 +34,11 @@ namespace Chateo.Controllers
             _chatRepository = chatRepository;
         }
 
+        public IActionResult Profile(int userId)
+        {
+            return View();
+        }
+
         public IActionResult More()
         {
             return View();

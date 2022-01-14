@@ -1,10 +1,6 @@
 @import url(nullablestyle.css);
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
-body {
-    max-width: 375px;
-    margin: 0 auto;
-}
 
 .register-box {
     padding-top: 169px;

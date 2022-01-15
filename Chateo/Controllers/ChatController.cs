@@ -27,9 +27,14 @@ namespace Chateo.Controllers
             _chatRepository = chatRepository;
         }
 
-        public IActionResult Index(int chatId)
+        public async Task<IActionResult> Index(int chatId)
         {
             var chat = _chatRepository.GetChatById(chatId);
+
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (!chat.Users.Contains(currentUser))
+                return RedirectToAction("Index", "Home");
 
             if (chat == null)
                 return RedirectToAction("Index", "Home");
@@ -56,16 +61,20 @@ namespace Chateo.Controllers
             if (string.IsNullOrEmpty(messageText))
                 return Ok();
 
+            var chat = _chatRepository.GetChatById(chatId);
             var user = await _userManager.GetUserAsync(User);
 
-            await _chatRepository.CreateMessageAsync(
-                chatId, 
-                user.Id, 
+            if (chat.Users.Contains(user))
+            {
+
+                await _chatRepository.CreateMessageAsync(
+                chatId,
+                user.Id,
                 messageText);
 
-            await chatHub.Clients.Group(chatId.ToString())
-                .SendAsync("ReceiveMessage", messageText, user.UserName);
-
+                await chatHub.Clients.Group(chatId.ToString())
+                    .SendAsync("ReceiveMessage", messageText, user.UserName);
+            }
 
             return Ok();
         }

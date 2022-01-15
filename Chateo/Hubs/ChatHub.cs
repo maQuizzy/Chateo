@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Chateo.Infrastructure.Repositories;
+using Chateo.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Chateo.Hubs
@@ -10,9 +14,19 @@ namespace Chateo.Hubs
     [Authorize]
     public class ChatHub : Hub
     {
-        public Task JoinChat(string chatId)
+        private readonly IAppRepository _appRepository;
+
+        public ChatHub(IAppRepository appRepository)
         {
-            return Groups.AddToGroupAsync(Context.ConnectionId, chatId);
+            _appRepository = appRepository;
+        }
+
+        public async Task JoinChat(string chatId)
+        {
+            var userId = Context.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            if (_appRepository.GetChatsByUserId(userId).First(c => c.Id.ToString() == chatId) != null)
+                await Groups.AddToGroupAsync(Context.ConnectionId, chatId);
         }
 
         public Task LeaveChat(string chatId)

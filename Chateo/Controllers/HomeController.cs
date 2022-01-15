@@ -34,7 +34,7 @@ namespace Chateo.Controllers
             _chatRepository = chatRepository;
         }
 
-        public IActionResult Profile(int userId)
+        public IActionResult Profile(int userName)
         {
             return View();
         }
@@ -54,16 +54,24 @@ namespace Chateo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteFriendRequest(string userId)
+        public async Task<IActionResult> DeleteFriendRequest(string userName)
         {
+            User targetUser = await _userManager.FindByNameAsync(userName);
+
+            string userId = targetUser.Id;
+
             await _chatRepository.DeleteFriendRequestAsync(this.GetCurrentUserId(), userId);
 
             return Ok();
         }
 
         [HttpPost] 
-        public async Task<IActionResult> ConfirmFriendRequest(string userId)
+        public async Task<IActionResult> ConfirmFriendRequest(string userName)
         {
+            User targetUser = await _userManager.FindByNameAsync(userName);
+
+            string userId = targetUser.Id;
+
             string currentUserId = this.GetCurrentUserId();
 
             await _chatRepository.ConfirmFriendRequestAsync(userId, currentUserId);
@@ -74,8 +82,12 @@ namespace Chateo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendFriendRequest(string userId)
+        public async Task<IActionResult> SendFriendRequest(string userName)
         {
+            User targetUser = await _userManager.FindByNameAsync(userName);
+
+            string userId = targetUser.Id;
+
             string currentUserId = this.GetCurrentUserId();
 
             await _chatRepository.CreateFriendRequestAsync(currentUserId, userId);

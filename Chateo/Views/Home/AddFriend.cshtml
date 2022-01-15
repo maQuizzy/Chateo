@@ -15,15 +15,15 @@
     <div class="friends__list">
         @foreach (var user in Model.NotFriends)
         {
-            <div asp-controller="Chat" asp-action="Index" asp-route-chatId="1" class="friends__list-item">
-                <a href="#">
+            <div class="friends__list-item">
+                <a asp-controller="Home" asp-action="Profile" asp-route-userName="@user.UserName">
                     <img src="~/img/contacts-avatar.png" alt="">
                     <div class="friends__user-desc">
                         <h3>@user.UserName</h3>
                     </div>
                 </a>
                 <form method="post" target="dummyframe">
-                    <input type="hidden" name="userId" value="@user.Id" />
+                    <input type="hidden" name="userName" value="@user.UserName" />
                     @if (Model.RequestsFrom.Contains(user))
                     {
                         <button asp-action="ConfirmFriendRequest" asp-controller="Home">

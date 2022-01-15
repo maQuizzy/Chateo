@@ -49,7 +49,7 @@
         chatHistory.scrollTop = chatHistory.scrollHeight;
     </script>
     <script>
-        const otherUserId = "@ViewBag.OtherUserId";
+        const otherUser = "@ViewBag.ChatTitle";
 
         const hubConnection = new signalR.HubConnectionBuilder()
             .withUrl("/Chathub")
@@ -60,10 +60,10 @@
                 hubConnection.invoke("JoinChat", "@Model.Id");
             });
 
-        hubConnection.on("ReceiveMessage", function (text, userid) {
+        hubConnection.on("ReceiveMessage", function (text, userName) {
             let messageBlock;
 
-            if (userid == otherUserId) {
+            if (userName == otherUser) {
                 messageBlock = CreateOtherMessage(text);
             }
             else {

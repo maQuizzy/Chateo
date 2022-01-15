@@ -38,8 +38,6 @@ namespace Chateo.Controllers
             {
                 var otherUser = chat.Users.First(user => user.Id != User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-                ViewBag.OtherUserId = otherUser.Id;
-
                 chat.Title = otherUser.UserName;
                 ViewBag.ChatTitle = otherUser.UserName;
 
@@ -47,13 +45,6 @@ namespace Chateo.Controllers
             }
 
             return Ok();
-        }
-
-        public async Task<IActionResult> CreatePrivateChat(string userId1, string userId2)
-        {
-            var chatId = await _chatRepository.CreatePrivateChatAsync(userId1, userId2);
-
-            return RedirectToAction("Chat", chatId);
         }
 
         [HttpPost]
@@ -65,16 +56,15 @@ namespace Chateo.Controllers
             if (string.IsNullOrEmpty(messageText))
                 return Ok();
 
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            var user = await _userManager.GetUserAsync(User);
 
             await _chatRepository.CreateMessageAsync(
                 chatId, 
-                userId, 
+                user.Id, 
                 messageText);
 
             await chatHub.Clients.Group(chatId.ToString())
-                .SendAsync("ReceiveMessage", messageText, userId);
+                .SendAsync("ReceiveMessage", messageText, user.UserName);
 
 
             return Ok();

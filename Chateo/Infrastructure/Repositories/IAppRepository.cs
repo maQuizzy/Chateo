@@ -8,6 +8,7 @@ namespace Chateo.Infrastructure.Repositories
 {
     public interface IAppRepository
     {
+        Chat GetPrivateChatByUsersId(string userId1, string userId2);
         Task DeleteFriendRequestAsync(string userId1, string userId2);
         IEnumerable<FriendRequest> GetFriendRequestsFrom(string userFromId);
         IEnumerable<FriendRequest> GetFriendRequestsTo(string userToId);

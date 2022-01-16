@@ -45,6 +45,7 @@ namespace Chateo.Controllers
 
                 chat.Title = otherUser.UserName;
                 ViewBag.ChatTitle = otherUser.UserName;
+                ViewBag.OtherUserId = otherUser.Id;
 
                 return View("Private", chat);
             }

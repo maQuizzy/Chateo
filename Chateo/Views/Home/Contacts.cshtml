@@ -23,7 +23,7 @@
         {
             foreach (var user in Model)
             {
-                <a asp-controller="Chat" asp-action="Index" asp-route-chatId="1" class="contacts__list-item">
+                <a asp-controller="Home" asp-action="Profile" asp-route-userName="@user.UserName" class="contacts__list-item">
                     <img src="~/img/contacts-avatar.png" alt="">
                     <div class="contacts__user-desc">
                         <h3>@user.UserName</h3>

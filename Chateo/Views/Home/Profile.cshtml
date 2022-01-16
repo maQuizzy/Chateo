@@ -10,10 +10,13 @@
 <div class="profile">
     <img class="profile__avatar" src="~/img/example-avatar.jpg" alt="">
     <div class="profile__desc">
-        <p>Maxim Saraev</p>
-        <p class="secondary-desc">Quizzy</p>
+        <p>@Model.FirstName @Model.LastName</p>
+        <p class="secondary-desc">@Model.UserName</p>
     </div>
     <div class="profile-links">
-        <a href="#"><img src="~/img/message_circle.svg" alt=""> Send message</a>
+        @if (ViewBag.IsFriends) 
+        {
+            <a asp-controller="Chat" asp-action="Index" asp-route-chatId="@ViewBag.ChatId"><img src="~/img/message_circle.svg" alt=""> Send message</a>
+        }
     </div>
 </div>

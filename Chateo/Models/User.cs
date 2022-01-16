@@ -10,6 +10,8 @@ namespace Chateo.Models
 {
     public class User : IdentityUser
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public ICollection<Chat> Chats { get; set; }
         public ICollection<Message> Messages { get; set; }
         

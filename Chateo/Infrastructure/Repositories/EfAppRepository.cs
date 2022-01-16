@@ -133,6 +133,16 @@ namespace Chateo.Infrastructure.Repositories
                 .FirstOrDefault(c => c.Id == chatId);
         }
 
+        public Chat GetPrivateChatByUsersId(string userId1, string userId2)
+        {
+            var user1 = _ctx.Users.First(u => u.Id == userId1);
+            var user2 = _ctx.Users.First(u => u.Id == userId2);
+
+            return _ctx.Chats.First(c => c.ChatType == ChatType.Private &&
+                                    c.Users.Contains(user1) &&
+                                    c.Users.Contains(user2));
+        }
+
         public IEnumerable<Chat> GetChatsByUserId(string userId)
         {
             var user = new User { Id = userId };

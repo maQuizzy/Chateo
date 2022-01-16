@@ -29,17 +29,20 @@ namespace Chateo.Controllers
             ViewBag.OwnProfile = false;
 
             if (userName == null)
-            {
                 userName = User.FindFirst(ClaimTypes.Name).Value;
-                ViewBag.OwnProfile = true;
-            }
 
             ViewBag.ProfileHeader = userName;
 
             var user = await _userManager.FindByNameAsync(userName);
 
-            if (ViewBag.OwnProfile)
+            if (user == null)
+                return RedirectToAction("Index");
+
+            if(user.Id == this.GetCurrentUserId())
+            {
+                ViewBag.OwnProfile = true;
                 return View(user);
+            }
 
             if (_appRepository.GetUserFriends(this.GetCurrentUserId()).Contains(user))
             {

@@ -53,8 +53,14 @@
 
 .profile-links a {
     color: black;
-    display: inline-block;
     padding: 6px 24px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.profile-links a img {
+    margin-right: 5px;
 }
 
 .profile-links a:hover {

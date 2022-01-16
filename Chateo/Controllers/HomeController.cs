@@ -34,26 +34,10 @@ namespace Chateo.Controllers
             _chatRepository = chatRepository;
         }
 
-        [Route("Home/Profile/{userName?}")]
-        public async Task<IActionResult> Profile(string userName)
+        public async Task<IActionResult> More()
         {
-            ViewBag.IsFriends = false;
-            ViewBag.ProfileHeader = userName;
-
-            var user = await _userManager.FindByNameAsync(userName);
-
-            if (_chatRepository.GetUserFriends(this.GetCurrentUserId()).Contains(user))
-            {
-                ViewBag.IsFriends = true;
-                ViewBag.ChatId = _chatRepository.GetPrivateChatByUsersId(this.GetCurrentUserId(), user.Id).Id;
-            }
-
+            var user = await _userManager.GetUserAsync(User);
             return View(user);
-        }
-
-        public IActionResult More()
-        {
-            return View();
         }
 
         public IActionResult Index()

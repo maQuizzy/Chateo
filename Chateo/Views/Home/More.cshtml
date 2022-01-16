@@ -1,16 +1,18 @@
-﻿@{ ViewBag.Title = "More"; }
+﻿@model Chateo.Models.User
+
+@{ ViewBag.Title = "More"; }
 
 <link rel="stylesheet" asp-href-include="css/more.css">
 
 <div class="more">
     <div class="more__links-list">
         <div class="more__links-group">
-            <a href="" class="more__main-item">
+            <a asp-controller="Profile" asp-action="Index" class="more__main-item">
                 <div class="more__item-info">
                     <img class="more__user-avatar" src="~/img/user-default.png" alt="" />
                     <div class="more__item-desc">
-                        <p>Your name</p>
-                        <p class="more__item-secondary">yourmail@box.ru</p>
+                        <p>@Model.FirstName @Model.LastName</p>
+                        <p class="more__item-secondary">@Model.UserName</p>
                     </div>
                 </div>
                 <img src="~/img/chevron_right.svg" alt="" />

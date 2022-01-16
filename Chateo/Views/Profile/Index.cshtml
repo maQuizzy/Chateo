@@ -1,6 +1,6 @@
 ﻿@model Chateo.Models.User
 
-@{ 
+@{
     ViewBag.Title = "Profile";
     ViewBag.Footer = "Contacts";
 }
@@ -14,9 +14,13 @@
         <p class="secondary-desc">@Model.UserName</p>
     </div>
     <div class="profile-links">
-        @if (ViewBag.IsFriends) 
+        @if (ViewBag.IsFriends)
         {
-            <a asp-controller="Chat" asp-action="Index" asp-route-chatId="@ViewBag.ChatId"><img src="~/img/message_circle.svg" alt=""> Send message</a>
+            <a asp-controller="Chat" asp-action="Index" asp-route-chatId="@ViewBag.ChatId"><img src="~/img/message_circle.svg" alt="">Send message</a>
+        }
+        else if (ViewBag.OwnProfile)
+        {
+            <a asp-controller="Profile" asp-action="Settings"><img src="~/img/settings.svg" alt="">Profile settings</a>
         }
     </div>
 </div>

@@ -8,35 +8,7 @@
 
 <div class="chat">
     <div class="chat__message-history" id="chat-history">
-        @foreach (var message in Model.Messages)
-        {
-            if (message.UserId == ViewBag.OtherUserId)
-            {
-                <div class="chat__other-message">
-                    <div class="chat__other-message-content">
-                        <p>@message.Text</p>
-                        <div class="chat__message-desc">
-                            <p>16:50</p>
-                            <p>·</p>
-                            <p>Read</p>
-                        </div>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="chat__self-message">
-                    <div class="chat__self-message-content">
-                        <p>@message.Text</p>
-                        <div class="chat__message-desc">
-                            <p>16:50</p>
-                            <p>·</p>
-                            <p>Read</p>
-                        </div>
-                    </div>
-                </div>
-            }
-        }
+        @await Html.PartialAsync("Messages",Model.Messages)
     </div>
 </div>
 
@@ -82,5 +54,41 @@
         }
 
         document.getElementById('send-button').addEventListener('click', sendMessageFormSubmit);
+        document.getElementById('sendMessageForm').addEventListener('submit', e => {
+            e.preventDefault();
+            sendMessageFormSubmit();
+        });
+    </script>
+    <script>
+        let page = 0;
+
+        let loadMessages = function () {
+            if (page > -1) {
+                page++;
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("Index", "Chat")?chatId=@Model.Id&pageNumber=' + page,
+                    success: function (data, textstatus) {
+                        if ($.trim(data)) {
+                            $("#chat-history").prepend(data);
+                        }
+                        else {
+                            page = -1;
+                        }
+                    }
+                });
+            }
+        }
+
+        $("#chat-history").scroll(function () {
+            if (chatHistory.scrollHeight - chatHistory.scrollTop == chatHistory.clientHeight) {
+                $("#chat-history").scroll(function () {
+                    if ($("#chat-history").scrollTop() <= 300) {
+                        loadMessages();
+                    }
+                });
+            }
+        });
+
     </script>
 }

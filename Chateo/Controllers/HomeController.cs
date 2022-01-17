@@ -20,7 +20,7 @@ namespace Chateo.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly AppDbContext _context;
-        private readonly IAppRepository _chatRepository;
+        private readonly IAppRepository _appRepository;
 
         public HomeController(
             UserManager<User> userManager, 
@@ -31,7 +31,7 @@ namespace Chateo.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
-            _chatRepository = chatRepository;
+            _appRepository = chatRepository;
         }
 
         public async Task<IActionResult> More()
@@ -44,7 +44,7 @@ namespace Chateo.Controllers
         {
             string currentUserId = this.GetCurrentUserId();
 
-            var friends = _chatRepository.GetUserFriends(currentUserId);
+            var friends = _appRepository.GetUserFriends(currentUserId);
 
             return View("Contacts", friends);
         }
@@ -56,7 +56,7 @@ namespace Chateo.Controllers
 
             string userId = targetUser.Id;
 
-            await _chatRepository.DeleteFriendRequestAsync(this.GetCurrentUserId(), userId);
+            await _appRepository.DeleteFriendRequestAsync(this.GetCurrentUserId(), userId);
 
             return Ok();
         }
@@ -70,8 +70,8 @@ namespace Chateo.Controllers
 
             string currentUserId = this.GetCurrentUserId();
 
-            await _chatRepository.ConfirmFriendRequestAsync(userId, currentUserId);
-            await _chatRepository.CreatePrivateChatAsync(userId, currentUserId);
+            await _appRepository.ConfirmFriendRequestAsync(userId, currentUserId);
+            await _appRepository.CreatePrivateChatAsync(userId, currentUserId);
 
             return Ok();
 
@@ -86,7 +86,7 @@ namespace Chateo.Controllers
 
             string currentUserId = this.GetCurrentUserId();
 
-            await _chatRepository.CreateFriendRequestAsync(currentUserId, userId);
+            await _appRepository.CreateFriendRequestAsync(currentUserId, userId);
 
             return Ok();
         }
@@ -98,9 +98,9 @@ namespace Chateo.Controllers
 
             var model = new AddFriendViewModel
             {
-                NotFriends = _chatRepository.GetUserNotFriends(currentUserId),
-                RequestsFrom = _chatRepository.GetFriendRequestsTo(currentUserId).Select(f => f.UserFrom),
-                RequestsTo = _chatRepository.GetFriendRequestsFrom(currentUserId).Select(f => f.UserTo)
+                NotFriends = _appRepository.GetUserNotFriends(currentUserId),
+                RequestsFrom = _appRepository.GetFriendRequestsTo(currentUserId).Select(f => f.UserFrom),
+                RequestsTo = _appRepository.GetFriendRequestsFrom(currentUserId).Select(f => f.UserTo)
             };
 
             return View(model);
@@ -111,7 +111,7 @@ namespace Chateo.Controllers
         {
             string currentUserId = this.GetCurrentUserId();
 
-            var chats = _chatRepository.GetChatsByUserId(currentUserId);
+            var chats = _appRepository.GetChatsByUserId(currentUserId);
 
             foreach(var chat in chats)
             {

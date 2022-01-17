@@ -14,12 +14,19 @@
         <h2>Create an account</h2>
         <p>Please enter username and password to register</p>
         <form method="post" asp-controller="Account" asp-action="Register">
-            <input asp-for="UserName" placeholder="Username" type="text">
+            <div asp-validation-summary="ModelOnly"></div>
+            <input asp-for="Username" placeholder="Username" type="text">
+            <span asp-validation-for="Username"></span>
             <input asp-for="Password" placeholder="Password" type="password">
+            <span asp-validation-for="Password"></span>
             <input type="submit" value="Continue" class="register-button">
         </form>
         <p>Already have login and password? <a asp-controller="Account" asp-action="Login">Sign in</a></p>
     </div>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </body>
+
 
 </html>

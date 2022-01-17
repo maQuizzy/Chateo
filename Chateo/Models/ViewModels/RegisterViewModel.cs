@@ -9,9 +9,10 @@ namespace Chateo.Models.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
-        public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Enter username")]
+        public string Username { get; set; }
+
+        [Required(ErrorMessage = "Enter password")]
         public string Password { get; set; }
     }
 }

@@ -30,13 +30,18 @@ namespace Chateo.Controllers
         {
             if(ModelState.IsValid)
             {
-                User user = new User { UserName = model.UserName };
+                User user = new User
+                { 
+                    UserName = model.Username,
+                    FirstName = "User",
+                    LastName = model.Username
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if(result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Settings", "Profile");
                 }
 
                 foreach (var error in result.Errors)
@@ -59,7 +64,7 @@ namespace Chateo.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неверный логин и (или) пароль");
+                    ModelState.AddModelError("", "Invalid username and/or password");
                 }
             }
 

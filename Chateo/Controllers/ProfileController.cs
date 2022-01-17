@@ -53,9 +53,15 @@ namespace Chateo.Controllers
             return View(user);
         }
 
-        public IActionResult Settings()
+        public async Task<IActionResult> Settings()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+
+            return View(new ProfileSettingsViewModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            });
         }
 
         [HttpPost]

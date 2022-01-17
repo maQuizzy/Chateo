@@ -8,10 +8,10 @@ namespace Chateo.Models.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Enter username")]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Enter password")]
         public string Password { get; set; }
     }
 }

@@ -19,17 +19,17 @@ namespace Chateo.Controllers
     public class ChatController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly IAppRepository _chatRepository;
+        private readonly IAppRepository _appRepository;
 
         public ChatController(UserManager<User> userManager, IAppRepository chatRepository)
         {
             _userManager = userManager;
-            _chatRepository = chatRepository;
+            _appRepository = chatRepository;
         }
 
         public async Task<IActionResult> Index(int chatId)
         {
-            var chat = _chatRepository.GetChatById(chatId);
+            var chat = _appRepository.GetChatById(chatId);
 
             var currentUser = await _userManager.GetUserAsync(User);
 
@@ -62,13 +62,13 @@ namespace Chateo.Controllers
             if (string.IsNullOrEmpty(messageText))
                 return Ok();
 
-            var chat = _chatRepository.GetChatById(chatId);
+            var chat = _appRepository.GetChatById(chatId);
             var user = await _userManager.GetUserAsync(User);
 
             if (chat.Users.Contains(user))
             {
 
-                await _chatRepository.CreateMessageAsync(
+                await _appRepository.CreateMessageAsync(
                 chatId,
                 user.Id,
                 messageText);

@@ -1,13 +1,14 @@
 @import url(nullablestyle.css);
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
-
 .register-box {
     padding-top: 169px;
 }
 
 .register-box form {
     margin-bottom: 48px;
+    display: flex;
+    flex-direction: column;
 }
 
 h2 {
@@ -67,4 +68,24 @@ h2 {
 
 .register-button:hover {
     background: #001A83;
+}
+
+.validation-summary-errors,
+.field-validation-error {
+    display: inline-block;
+    margin: 0 auto;
+    color: #E94242;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 48px;
+}
+
+.validation-summary-errors li {
+    margin-bottom: 5px;
+}
+
+.field-validation-error {
+    margin-bottom: 20px;
 }

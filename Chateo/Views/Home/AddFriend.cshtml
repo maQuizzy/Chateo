@@ -22,7 +22,7 @@
                         <h3>@user.UserName</h3>
                     </div>
                 </a>
-                <form id="friend-form-@user.UserName" method="post" target="dummyframe">
+                <form class="friend-form" id="friend-form-@user.UserName" method="post">
                     <input type="hidden" name="userName" value="@user.UserName" />
                     @if (Model.RequestsFrom.Contains(user))
                     {
@@ -46,8 +46,6 @@
                         </button>
                     }
                 </form>
-
-                <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
             </div>
         }
     </div>
@@ -56,18 +54,36 @@
 @section scripts
 {
     <script>
-        let updateButtons = function () {
-            let iframe = document.getElementById("dummyframe");
-            let innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-            let responseArr = JSON.parse($(innerDoc).find("pre")[0].textContent).split(' ');
 
-            let response = responseArr[1];
+        let updateBtnEvents = function () {
+            $('.friend-form').children("button").on("click", function () { $(this).parent().attr("action", $(this).attr("formaction")); });
+        }
 
-            let friendForm = $(`#friend-form-${responseArr[0]}`);
+        updateBtnEvents();
 
-            switch (response) {
+        $('.friend-form').on("submit", function (e) {
+
+            e.preventDefault();
+
+            let form = $(this);
+            let action = form.attr("action");
+
+            $.ajax({
+                url: action,
+                method: 'post',
+                dataType: 'html',
+                data: form.serialize(),
+                success: function (data) {
+                    let response = JSON.parse(data);
+                    updateButtons(form, response);
+                }
+            });
+        });
+
+        let updateButtons = function (form, response) {
+            switch (response.result) {
                 case "RequestDeleted":
-                    friendForm.children("button").remove();
+                    form.children("button").remove();
 
                     let btn = document.createElement("button");
                     let img = document.createElement("img");
@@ -77,20 +93,17 @@
 
                     $(btn).attr("formaction", "@Url.Action("SendFriendRequest", "Home")");
 
-                    friendForm.append(btn);
+                    form.append(btn);
                     break;
                 case "RequestSent":
-                    friendForm.children("button").attr("formaction", "@Url.Action("DeleteFriendRequest", "Home")");
-                    friendForm.children("button").children("img").attr("src", "/img/check_big.svg");
+                    form.children("button").attr("formaction", "@Url.Action("DeleteFriendRequest", "Home")");
+                    form.children("button").children("img").attr("src", "/img/check_big.svg");
                     break;
                 case "RequestConfirmed":
-                    $(`#friend-item-${responseArr[0]}`).remove();
+                    $(`#friend-item-${response.username}`).remove();
                     break;
             }
+            updateBtnEvents();
         }
-
-        $("#dummyframe").on("load", (function () {
-            updateButtons();
-        }));
     </script>
 }

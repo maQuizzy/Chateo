@@ -23,7 +23,7 @@ namespace Chateo.Controllers
         private readonly IAppRepository _appRepository;
 
         public HomeController(
-            UserManager<User> userManager, 
+            UserManager<User> userManager,
             SignInManager<User> signInManager,
             AppDbContext context,
             IAppRepository chatRepository)
@@ -58,10 +58,14 @@ namespace Chateo.Controllers
 
             await _appRepository.DeleteFriendRequestAsync(this.GetCurrentUserId(), userId);
 
-            return Json($"{userName} RequestDeleted");
+            return Json(new
+            {
+                username = userName,
+                result = "RequestDeleted"
+            });
         }
 
-        [HttpPost] 
+        [HttpPost]
         public async Task<IActionResult> ConfirmFriendRequest(string userName)
         {
             User targetUser = await _userManager.FindByNameAsync(userName);
@@ -73,7 +77,11 @@ namespace Chateo.Controllers
             await _appRepository.ConfirmFriendRequestAsync(userId, currentUserId);
             await _appRepository.CreatePrivateChatAsync(userId, currentUserId);
 
-            return Json($"{userName} RequestConfirmed");
+            return Json(new
+            {
+                username = userName,
+                result = "RequestConfirmed"
+            });
 
         }
 
@@ -88,7 +96,11 @@ namespace Chateo.Controllers
 
             await _appRepository.CreateFriendRequestAsync(currentUserId, userId);
 
-            return Json($"{userName} RequestSent");
+            return Json(new
+            {
+                username = userName,
+                result = "RequestSent"
+            });
         }
 
 
@@ -113,7 +125,7 @@ namespace Chateo.Controllers
 
             var chats = _appRepository.GetChatsByUserId(currentUserId);
 
-            foreach(var chat in chats)
+            foreach (var chat in chats)
             {
                 if (chat.ChatType == ChatType.Private)
                     chat.Title = chat.Users.First(u => u.Id != currentUserId).UserName;

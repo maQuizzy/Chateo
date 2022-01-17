@@ -58,7 +58,7 @@ namespace Chateo.Controllers
 
             await _appRepository.DeleteFriendRequestAsync(this.GetCurrentUserId(), userId);
 
-            return Ok();
+            return Json($"{userName} RequestDeleted");
         }
 
         [HttpPost] 
@@ -73,7 +73,7 @@ namespace Chateo.Controllers
             await _appRepository.ConfirmFriendRequestAsync(userId, currentUserId);
             await _appRepository.CreatePrivateChatAsync(userId, currentUserId);
 
-            return Ok();
+            return Json($"{userName} RequestConfirmed");
 
         }
 
@@ -88,7 +88,7 @@ namespace Chateo.Controllers
 
             await _appRepository.CreateFriendRequestAsync(currentUserId, userId);
 
-            return Ok();
+            return Json($"{userName} RequestSent");
         }
 
 

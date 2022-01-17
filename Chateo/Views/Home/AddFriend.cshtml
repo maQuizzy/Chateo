@@ -15,14 +15,14 @@
     <div class="friends__list">
         @foreach (var user in Model.NotFriends)
         {
-            <div class="friends__list-item">
-                <a asp-controller="Home" asp-action="Profile" asp-route-userName="@user.UserName">
+            <div id="friend-item-@user.UserName" class="friends__list-item">
+                <a asp-controller="Profile" asp-action="Index" asp-route-userName="@user.UserName">
                     <img src="~/img/contacts-avatar.png" alt="">
                     <div class="friends__user-desc">
                         <h3>@user.UserName</h3>
                     </div>
                 </a>
-                <form method="post" target="dummyframe">
+                <form id="friend-form-@user.UserName" method="post" target="dummyframe">
                     <input type="hidden" name="userName" value="@user.UserName" />
                     @if (Model.RequestsFrom.Contains(user))
                     {
@@ -52,3 +52,45 @@
         }
     </div>
 </div>
+
+@section scripts
+{
+    <script>
+        let updateButtons = function () {
+            let iframe = document.getElementById("dummyframe");
+            let innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+            let responseArr = JSON.parse($(innerDoc).find("pre")[0].textContent).split(' ');
+
+            let response = responseArr[1];
+
+            let friendForm = $(`#friend-form-${responseArr[0]}`);
+
+            switch (response) {
+                case "RequestDeleted":
+                    friendForm.children("button").remove();
+
+                    let btn = document.createElement("button");
+                    let img = document.createElement("img");
+
+                    $(img).attr("src", "/img/user_plus.svg");
+                    btn.appendChild(img);
+
+                    $(btn).attr("formaction", "@Url.Action("SendFriendRequest", "Home")");
+
+                    friendForm.append(btn);
+                    break;
+                case "RequestSent":
+                    friendForm.children("button").attr("formaction", "@Url.Action("DeleteFriendRequest", "Home")");
+                    friendForm.children("button").children("img").attr("src", "/img/check_big.svg");
+                    break;
+                case "RequestConfirmed":
+                    $(`#friend-item-${responseArr[0]}`).remove();
+                    break;
+            }
+        }
+
+        $("#dummyframe").on("load", (function () {
+            updateButtons();
+        }));
+    </script>
+}

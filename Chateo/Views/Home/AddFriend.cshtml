@@ -10,44 +10,12 @@
 
 <div class="friends">
     <div class="friends__search-panel">
-        <input placeholder="Search" type="text">
+        <input id="friend-search-input" placeholder="Search" type="text">
     </div>
-    <div class="friends__list">
-        @foreach (var user in Model.NotFriends)
-        {
-            <div id="friend-item-@user.UserName" class="friends__list-item">
-                <a asp-controller="Profile" asp-action="Index" asp-route-userName="@user.UserName">
-                    <img src="~/img/contacts-avatar.png" alt="">
-                    <div class="friends__user-desc">
-                        <h3>@user.UserName</h3>
-                    </div>
-                </a>
-                <form class="friend-form" id="friend-form-@user.UserName" method="post">
-                    <input type="hidden" name="userName" value="@user.UserName" />
-                    @if (Model.RequestsFrom.Contains(user))
-                    {
-                        <button asp-action="ConfirmFriendRequest" asp-controller="Home">
-                            <img src="~/img/check_big.svg" alt="" />
-                        </button>
-                        <button asp-action="DeleteFriendRequest" asp-controller="Home">
-                            <img src="~/img/close_big.svg" alt="" />
-                        </button>
-                    }
-                    else if (Model.RequestsTo.Contains(user))
-                    {
-                        <button asp-action="DeleteFriendRequest" asp-controller="Home">
-                            <img src="~/img/check_big.svg" alt="" />
-                        </button>
-                    }
-                    else
-                    {
-                        <button asp-action="SendFriendRequest" asp-controller="Home">
-                            <img src="~/img/user_plus.svg" alt="" />
-                        </button>
-                    }
-                </form>
-            </div>
-        }
+    <div id="friends-list" class="friends__list">
+        <div class="friends__list-help-item">
+            Enter a search term
+        </div>
     </div>
 </div>
 
@@ -59,26 +27,27 @@
             $('.friend-form').children("button").on("click", function () { $(this).parent().attr("action", $(this).attr("formaction")); });
         }
 
-        updateBtnEvents();
 
-        $('.friend-form').on("submit", function (e) {
+        let updateForms = function () {
+            $('.friend-form').on("submit", function (e) {
 
-            e.preventDefault();
+                e.preventDefault();
 
-            let form = $(this);
-            let action = form.attr("action");
+                let form = $(this);
+                let action = form.attr("action");
 
-            $.ajax({
-                url: action,
-                method: 'post',
-                dataType: 'html',
-                data: form.serialize(),
-                success: function (data) {
-                    let response = JSON.parse(data);
-                    updateButtons(form, response);
-                }
+                $.ajax({
+                    url: action,
+                    method: 'post',
+                    dataType: 'html',
+                    data: form.serialize(),
+                    success: function (data) {
+                        let response = JSON.parse(data);
+                        updateButtons(form, response);
+                    }
+                });
             });
-        });
+        }
 
         let updateButtons = function (form, response) {
             switch (response.result) {
@@ -105,5 +74,65 @@
             }
             updateBtnEvents();
         }
+    </script>
+
+    <script>
+
+        let page = 0;
+
+        let loadUsers = function () {
+            if (page > -1) {
+                let search = $("#friend-search-input").val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AddFriend", "Home")?search=' + search + '&pageNumber=' + page,
+                    success: function (data, textstatus) {
+                        if ($.trim(data)) {
+                            $("#friends-list").append(data);
+                            updateForms();
+                            updateBtnEvents();
+                        }
+                        else {
+                            if (page == 1) {
+                                let helpItem = document.createElement("div");
+                                $(helpItem).addClass("friends__list-help-item");
+                                helpItem.textContent = "Nothing found";
+
+                                $('#friends-list').append(helpItem);
+
+                            }
+                            page = -1;
+                        }
+                    }
+                });
+                page++;
+            }
+        }
+
+        $("#friend-search-input").on("input", function () {
+            $("#friends-list").empty();
+            if ($("#friend-search-input").val() == "") {
+                let helpItem = document.createElement("div");
+                $(helpItem).addClass("friends__list-help-item");
+                helpItem.textContent = "Enter a search term";
+
+                $('#friends-list').append(helpItem);
+
+            }
+            else {
+                page = 0;
+                loadUsers();
+            }
+        });
+
+
+        $("#friends-list").scroll(function () {
+            let friendsList = document.getElementById("friends-list");
+            if (friendsList.scrollTop + friendsList.clientHeight >= friendsList.scrollHeight - 300) {
+                loadUsers();
+            }
+        });
+
     </script>
 }

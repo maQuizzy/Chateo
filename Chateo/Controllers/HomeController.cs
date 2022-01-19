@@ -22,6 +22,8 @@ namespace Chateo.Controllers
         private readonly AppDbContext _context;
         private readonly IAppRepository _appRepository;
 
+        private const int AddFriendPageSize = 15;
+
         public HomeController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
@@ -104,16 +106,34 @@ namespace Chateo.Controllers
         }
 
 
-        public IActionResult AddFriend()
+        public IActionResult AddFriend(string search, int? pageNumber)
         {
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
             string currentUserId = this.GetCurrentUserId();
 
             var model = new AddFriendViewModel
             {
-                NotFriends = _appRepository.GetUserNotFriends(currentUserId),
                 RequestsFrom = _appRepository.GetFriendRequestsTo(currentUserId).Select(f => f.UserFrom),
                 RequestsTo = _appRepository.GetFriendRequestsFrom(currentUserId).Select(f => f.UserTo)
             };
+
+
+            if (isAjax)
+            {
+                int page = pageNumber ?? 0;
+
+                int itemsToSkip = page * AddFriendPageSize;
+
+                model.NotFriends = _appRepository.GetUserNotFriends(currentUserId)
+                    .Where(u => u.UserName.Contains(search, StringComparison.InvariantCultureIgnoreCase))
+                    .Skip(itemsToSkip)
+                    .Take(AddFriendPageSize);
+
+               return PartialView("AddFriendList", model);
+            }
+
+            model.NotFriends = _appRepository.GetUserNotFriends(currentUserId);
 
             return View(model);
         }

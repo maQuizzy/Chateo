@@ -1,0 +1,37 @@
+﻿@model AddFriendViewModel
+
+@foreach (var user in Model.NotFriends)
+{
+    <div id="friend-item-@user.UserName" class="friends__list-item">
+        <a asp-controller="Profile" asp-action="Index" asp-route-userName="@user.UserName">
+            <img src="~/img/contacts-avatar.png" alt="">
+            <div class="friends__user-desc">
+                <h3>@user.UserName</h3>
+            </div>
+        </a>
+        <form class="friend-form" id="friend-form-@user.UserName" method="post">
+            <input type="hidden" name="userName" value="@user.UserName" />
+            @if (Model.RequestsFrom.Contains(user))
+            {
+                <button asp-action="ConfirmFriendRequest" asp-controller="Home">
+                    <img src="~/img/check_big.svg" alt="" />
+                </button>
+                <button asp-action="DeleteFriendRequest" asp-controller="Home">
+                    <img src="~/img/close_big.svg" alt="" />
+                </button>
+            }
+            else if (Model.RequestsTo.Contains(user))
+            {
+                <button asp-action="DeleteFriendRequest" asp-controller="Home">
+                    <img src="~/img/check_big.svg" alt="" />
+                </button>
+            }
+            else
+            {
+                <button asp-action="SendFriendRequest" asp-controller="Home">
+                    <img src="~/img/user_plus.svg" alt="" />
+                </button>
+            }
+        </form>
+    </div>
+}

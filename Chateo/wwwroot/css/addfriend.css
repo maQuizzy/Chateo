@@ -181,3 +181,13 @@
     line-height: 20px;
     color: #ADB5BD;
 }
+
+.friends__list-help-item {
+    text-align: center;
+    padding-top: 2px;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+}

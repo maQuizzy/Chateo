@@ -7,38 +7,46 @@
 
 <div class="contacts">
     <div class="contacts__search-panel">
-        <input placeholder="Search" type="text">
+        <input id="contact-search-input" placeholder="Search" type="text">
     </div>
-    <div class="contacts__list">
-        @await Html.PartialAsync("AddFriendList", Model.AddFriendViewModel)
-        @if (Model.Users.Count() == 0)
-        {
-            <a asp-controller="Home" asp-action="AddFriend" class="contacts__list-empty-item">
-                <img src="~/img/user_plus.svg" alt="">
-                <div class="contacts__user-desc">
-                    <h3>Add new friends</h3>
-                    <span></span>
-                </div>
-            </a>
-        }
-        else
-        {
-            foreach (var user in Model.Users)
-            {
-                <a asp-controller="Profile" asp-action="Index" asp-route-userName="@user.UserName" class="contacts__list-item">
-                    <img src="~/img/contacts-avatar.png" alt="">
-                    <div class="contacts__user-desc">
-                        <h3>@user.UserName</h3>
-                        <span>Last seen yesterday</span>
-                    </div>
-                </a>
-            }
-        }
+    <div id="contacts-list" class="contacts__list">
+        @await Html.PartialAsync("ContactsList", Model)
     </div>
 </div>
 
 @section scripts
 {
+
+    <script>
+        $("#contact-search-input").on("input", function () {
+            $("#contacts-list").empty();
+            loadСontacts();
+        });
+
+        let loadСontacts = function () {
+            let search = $("#contact-search-input").val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("Index", "Home")?search=' + search,
+                    success: function (data, textstatus) {
+                        if ($.trim(data)) {
+                            $("#contacts-list").append(data);
+                            updateForms();
+                            updateBtnEvents();
+                        }
+                        else {
+                            let helpItem = document.createElement("div");
+                            $(helpItem).addClass("friends__list-help-item");
+                            helpItem.textContent = "Nothing found";
+
+                            $("#contacts-list").append(helpItem);
+                        }
+                    }
+                });
+        }
+    </script>
+
     <script>
 
         let updateBtnEvents = function () {

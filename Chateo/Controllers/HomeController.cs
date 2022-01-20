@@ -42,7 +42,7 @@ namespace Chateo.Controllers
             return View(user);
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {
             string currentUserId = this.GetCurrentUserId();
 
@@ -63,6 +63,20 @@ namespace Chateo.Controllers
                 Users = friends,
                 AddFriendViewModel = friendViewModel
             };
+
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            if(isAjax)
+            {
+                if (!string.IsNullOrEmpty(search))
+                {
+                    contactsModel.Users = friends
+                        .Where(u => u.UserName.Contains(search, StringComparison.InvariantCultureIgnoreCase));
+
+                    contactsModel.IsSearch = true;
+                }
+
+                return PartialView("ContactsList", contactsModel);
+            }
 
             return View("Contacts", contactsModel);
         }

@@ -1,7 +1,6 @@
 @import url(nullablestyle.css);
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
-
 .contacts {
     padding-top: 22px;
     background-color: white;
@@ -84,4 +83,31 @@
     font-size: 12px;
     line-height: 20px;
     color: #ADB5BD;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #F7F7FC;
+    overflow: visible;
+    text-align: center;
+    height: 5px;
+    width: 85%;
+    margin: 0 auto;
+}
+
+.requests-top:after {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 20px;
+    background: #fff;
+    content: 'Requests';
+    padding: 0 15px;
+    position: relative;
+    top: -11px;
+}
+
+.contacts__requests {
+    margin-bottom: 20px;
 }

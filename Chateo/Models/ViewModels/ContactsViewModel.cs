@@ -9,5 +9,6 @@ namespace Chateo.Models.ViewModels
     {
         public IEnumerable<User> Users { get; set; }
         public AddFriendViewModel AddFriendViewModel { get;set; }
+        public bool IsSearch { get; set; } = false;
     }
 }

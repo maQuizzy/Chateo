@@ -1,0 +1,39 @@
+﻿@model ContactsViewModel
+
+@if (Model.AddFriendViewModel.NotFriends.Count() > 0 && !Model.IsSearch)
+{
+    <div class="contacts__requests">
+        <hr class="requests-top" />
+        @await Html.PartialAsync("AddFriendList", Model.AddFriendViewModel)
+    </div>
+}
+@if (Model.Users.Count() == 0)
+{
+    if (Model.IsSearch)
+    {
+
+    }
+    else
+    {
+        <a asp-controller="Home" asp-action="AddFriend" class="contacts__list-empty-item">
+            <img src="~/img/user_plus.svg" alt="">
+            <div class="contacts__user-desc">
+                <h3>Add new friends</h3>
+                <span></span>
+            </div>
+        </a>
+    }
+}
+else
+{
+    foreach (var user in Model.Users)
+    {
+        <a asp-controller="Profile" asp-action="Index" asp-route-userName="@user.UserName" class="contacts__list-item">
+            <img src="~/img/contacts-avatar.png" alt="">
+            <div class="contacts__user-desc">
+                <h3>@user.UserName</h3>
+                <span>Last seen yesterday</span>
+            </div>
+        </a>
+    }
+}

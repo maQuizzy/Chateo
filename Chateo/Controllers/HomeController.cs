@@ -46,9 +46,25 @@ namespace Chateo.Controllers
         {
             string currentUserId = this.GetCurrentUserId();
 
+            var requestsFrom = _appRepository.GetFriendRequestsTo(currentUserId).Select(f => f.UserFrom);
+            var requestsTo = _appRepository.GetFriendRequestsFrom(currentUserId).Select(f => f.UserTo);
+
+            var friendViewModel = new AddFriendViewModel
+            {
+                RequestsFrom = requestsFrom,
+                RequestsTo = requestsTo,
+                NotFriends = _appRepository.GetUserNotFriends(currentUserId).Where(u => requestsFrom.Contains(u) || requestsTo.Contains(u))
+            };
+
             var friends = _appRepository.GetUserFriends(currentUserId);
 
-            return View("Contacts", friends);
+            var contactsModel = new ContactsViewModel
+            {
+                Users = friends,
+                AddFriendViewModel = friendViewModel
+            };
+
+            return View("Contacts", contactsModel);
         }
 
         [HttpPost]

@@ -1,15 +1,17 @@
-﻿@model IEnumerable<User>
+﻿@model ContactsViewModel
 
 @{ ViewBag.Title = "Contacts"; }
 
 <link rel="stylesheet" asp-href-include="css/contacts.css">
+<link rel="stylesheet" asp-href-include="css/addfriend.css">
 
 <div class="contacts">
     <div class="contacts__search-panel">
         <input placeholder="Search" type="text">
     </div>
     <div class="contacts__list">
-        @if (Model.Count() == 0)
+        @await Html.PartialAsync("AddFriendList", Model.AddFriendViewModel)
+        @if (Model.Users.Count() == 0)
         {
             <a asp-controller="Home" asp-action="AddFriend" class="contacts__list-empty-item">
                 <img src="~/img/user_plus.svg" alt="">
@@ -21,7 +23,7 @@
         }
         else
         {
-            foreach (var user in Model)
+            foreach (var user in Model.Users)
             {
                 <a asp-controller="Profile" asp-action="Index" asp-route-userName="@user.UserName" class="contacts__list-item">
                     <img src="~/img/contacts-avatar.png" alt="">
@@ -34,3 +36,65 @@
         }
     </div>
 </div>
+
+@section scripts
+{
+    <script>
+
+        let updateBtnEvents = function () {
+            $('.friend-form').children("button").on("click", function () { $(this).parent().attr("action", $(this).attr("formaction")); });
+        }
+
+
+        let updateForms = function () {
+            $('.friend-form').on("submit", function (e) {
+
+                e.preventDefault();
+
+                let form = $(this);
+                let action = form.attr("action");
+
+                $.ajax({
+                    url: action,
+                    method: 'post',
+                    dataType: 'html',
+                    data: form.serialize(),
+                    success: function (data) {
+                        let response = JSON.parse(data);
+                        updateButtons(form, response);
+                    }
+                });
+            });
+        }
+
+        let updateButtons = function (form, response) {
+            switch (response.result) {
+                case "RequestDeleted":
+                    form.children("button").remove();
+
+                    let btn = document.createElement("button");
+                    let img = document.createElement("img");
+
+                    $(img).attr("src", "/img/user_plus.svg");
+                    btn.appendChild(img);
+
+                    $(btn).attr("formaction", "@Url.Action("SendFriendRequest", "Home")");
+
+                    form.append(btn);
+                    break;
+                case "RequestSent":
+                    form.children("button").attr("formaction", "@Url.Action("DeleteFriendRequest", "Home")");
+                    form.children("button").children("img").attr("src", "/img/check_big.svg");
+                    break;
+                case "RequestConfirmed":
+                    $(`#friend-item-${response.username}`).remove();
+                    break;
+            }
+            updateBtnEvents();
+        }
+
+    updateForms();
+    updateBtnEvents();
+    </script>
+
+}

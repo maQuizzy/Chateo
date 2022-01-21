@@ -1,8 +1,6 @@
 @import url(nullablestyle.css);
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
-
-
 .chats {
     background-color: white;
     height: 100%;
@@ -116,4 +114,14 @@
     font-size: 10px;
     line-height: 16px;
     color: #0F1828;
+}
+
+.chats__list-help-item {
+    text-align: center;
+    padding-top: 2px;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
 }

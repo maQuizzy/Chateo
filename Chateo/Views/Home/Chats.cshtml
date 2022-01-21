@@ -33,26 +33,41 @@
             </div>
         </div>
         <div class="chats__search-panel">
-            <input placeholder="Search" type="text">
+            <input id="chat-search-input" placeholder="Search" type="text">
         </div>
     </div>
-    <div class="chats__list">
-        @foreach (var chat in Model)
-        {
-            <a asp-controller="Chat" asp-action="Index" asp-route-chatId="@chat.Id" class="chats__list-item">
-                <img src="~/img/contacts-avatar.png" alt="">
-                <div class="chats__user-desc">
-                    <h3>@chat.Title</h3>
-                    @if (chat.Messages.Count > 0)
-                    {
-                        <span>@chat.Messages.Last().Text</span>
-                    }
-                    else
-                    {
-                        <span></span>
-                    }
-                </div>
-            </a>
-        }
+    <div id="chats-list" class="chats__list">
+        @await Html.PartialAsync("ChatsList", Model) 
     </div>
 </div>
+
+@section scripts
+{ 
+    <script>
+        $("#chat-search-input").on("input", function () {
+            $("#chats-list").empty();
+            loadСhats();
+        });
+
+        let loadСhats = function () {
+            let search = $("#chat-search-input").val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("Chats", "Home")?search=' + search,
+                    success: function (data, textstatus) {
+                        if ($.trim(data)) {
+                            $("#chats-list").append(data);
+                        }
+                        else {
+                            let helpItem = document.createElement("div");
+                            $(helpItem).addClass("chats__list-help-item");
+                            helpItem.textContent = "Nothing found";
+
+                            $("#chats-list").append(helpItem);
+                        }
+                    }
+                });
+        }
+    </script>
+}

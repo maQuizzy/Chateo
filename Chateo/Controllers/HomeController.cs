@@ -65,7 +65,7 @@ namespace Chateo.Controllers
             };
 
             var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
-            if(isAjax)
+            if (isAjax)
             {
                 if (!string.IsNullOrEmpty(search))
                 {
@@ -160,7 +160,7 @@ namespace Chateo.Controllers
                     .Skip(itemsToSkip)
                     .Take(AddFriendPageSize);
 
-               return PartialView("AddFriendList", model);
+                return PartialView("AddFriendList", model);
             }
 
             model.NotFriends = _appRepository.GetUserNotFriends(currentUserId);
@@ -169,7 +169,7 @@ namespace Chateo.Controllers
         }
 
 
-        public IActionResult Chats()
+        public IActionResult Chats(string search)
         {
             string currentUserId = this.GetCurrentUserId();
 
@@ -179,6 +179,18 @@ namespace Chateo.Controllers
             {
                 if (chat.ChatType == ChatType.Private)
                     chat.Title = chat.Users.First(u => u.Id != currentUserId).UserName;
+            }
+
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+            if (isAjax)
+            {
+                if (!string.IsNullOrEmpty(search))
+                    chats = chats
+                        .Where(c => c.Title.Contains(search, StringComparison.InvariantCultureIgnoreCase));
+
+                return PartialView("ChatsList", chats);
+
             }
 
             return View(chats);

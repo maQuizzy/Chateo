@@ -10,3 +10,10 @@ body {
 .content-container {
     height: calc(100% - 56px - 56px);
 }
+
+.search-input {
+    background-image: url(../img/search-icon.svg);
+    background-position: 8px 6px;
+    background-repeat: no-repeat;
+    text-indent: 32px;
+}

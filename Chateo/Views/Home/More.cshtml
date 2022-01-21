@@ -9,7 +9,14 @@
         <div class="more__links-group">
             <a asp-controller="Profile" asp-action="Index" class="more__main-item">
                 <div class="more__item-info">
-                    <img class="more__user-avatar" src="~/img/user-default.png" alt="" />
+                    @if (Model.Avatar != null)
+                    {
+                        <img class="user-avatar more__user-avatar" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Avatar))" />
+                    }
+                    else
+                    {
+                        <img class="user-no-avatar more__user-avatar" src="/img/no-avatar-icon-small.svg" alt="" />
+                    }
                     <div class="more__item-desc">
                         <p>@Model.FirstName @Model.LastName</p>
                         <p class="more__item-secondary">@Model.UserName</p>

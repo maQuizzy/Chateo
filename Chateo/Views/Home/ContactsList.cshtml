@@ -9,11 +9,7 @@
 }
 @if (Model.Users.Count() == 0)
 {
-    if (Model.IsSearch)
-    {
-
-    }
-    else
+    if(!Model.IsSearch)
     {
         <a asp-controller="Home" asp-action="AddFriend" class="contacts__list-empty-item">
             <img src="~/img/user_plus.svg" alt="">
@@ -28,12 +24,19 @@ else
 {
     foreach (var user in Model.Users)
     {
-        <a asp-controller="Profile" asp-action="Index" asp-route-userName="@user.UserName" class="contacts__list-item">
-            <img src="~/img/contacts-avatar.png" alt="">
-            <div class="contacts__user-desc">
-                <h3>@user.UserName</h3>
-                <span>Last seen yesterday</span>
-            </div>
-        </a>
+<a asp-controller="Profile" asp-action="Index" asp-route-userName="@user.UserName" class="contacts__list-item">
+    @if (user.Avatar != null)
+    {
+        <img class="user-avatar contacts__user-avatar" src="data:image/jpeg;base64,@(Convert.ToBase64String(user.Avatar))" />
+    }
+    else
+    {
+        <img class="user-no-avatar contacts__user-avatar" src="/img/no-avatar-icon-small.svg" alt="" />
+    }
+    <div class="contacts__user-desc">
+        <h3>@user.UserName</h3>
+        <span>Last seen yesterday</span>
+    </div>
+</a>
     }
 }

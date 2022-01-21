@@ -4,7 +4,14 @@
 {
     <div id="friend-item-@user.UserName" class="friends__list-item">
         <a asp-controller="Profile" asp-action="Index" asp-route-userName="@user.UserName">
-            <img src="~/img/contacts-avatar.png" alt="">
+            @if (user.Avatar != null)
+            {
+                <img class="user-avatar friends__user-avatar" src="data:image/jpeg;base64,@(Convert.ToBase64String(user.Avatar))" />
+            }
+            else
+            {
+                <img class="user-no-avatar friends__user-avatar" src="/img/no-avatar-icon-small.svg" alt="" />
+            }
             <div class="friends__user-desc">
                 <h3>@user.UserName</h3>
             </div>

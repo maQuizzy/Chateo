@@ -6,11 +6,19 @@
     margin: 0 auto;
 }
 
-.profile-settings img {
+.profile-settings__change-avatar {
+    margin: 0 auto;
+    display: flex;
+    background-color: #F7F7FC;
+    border-radius: 50px;
     width: 100px;
     height: 100px;
-    margin: 0 auto;
     margin-bottom: 31px;
+}
+
+.profile-settings__change-avatar img {
+    width: 100%;
+    height: 100%;
     border-radius: 50px;
 }
 
@@ -47,4 +55,27 @@
 
 .profile-settings form input[type="submit"]:hover {
     background: #001A83;
+}
+
+.profile-settings__change-avatar form input[type="file"] {
+    display: none;
+}
+
+.profile-settings__change-avatar form {
+    position: relative;
+}
+
+.avatar-upload {
+    position: absolute;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 12px;
+    right: 3px;
+    bottom: 1px;
+    background-color: #F7F7FC;
+}
+
+.avatar-upload img {
+    width: 24px;
+    height: 24px;
 }

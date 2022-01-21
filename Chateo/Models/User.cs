@@ -12,6 +12,8 @@ namespace Chateo.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public byte[] Avatar { get; set; }
+
         public ICollection<Chat> Chats { get; set; }
         public ICollection<Message> Messages { get; set; }
         

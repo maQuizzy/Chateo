@@ -73,7 +73,10 @@
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
-    line-height: 24px;
+}
+
+.contacts__user-desc h3 {
+    margin-bottom: 8px;
 }
 
 .contacts__user-desc span {
@@ -110,4 +113,10 @@ hr {
 
 .contacts__requests {
     margin-bottom: 20px;
+}
+
+.contacts__user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
 }

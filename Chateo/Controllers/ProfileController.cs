@@ -2,16 +2,20 @@
 using Chateo.Infrastructure.Repositories;
 using Chateo.Models;
 using Chateo.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Chateo.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly IAppRepository _appRepository;
@@ -57,24 +61,43 @@ namespace Chateo.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            return View(new ProfileSettingsViewModel
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName
-            });
+            return View(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Settings(ProfileSettingsViewModel model)
+        public async Task<IActionResult> Settings(string firstName, string lastName)
         {
             var user = await _userManager.GetUserAsync(User);
 
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
+            user.FirstName = firstName;
+            user.LastName = lastName;
 
-            await _userManager.UpdateAsync(user);
+            var result = await _userManager.UpdateAsync(user);
 
-            return View(model);
+            if (result.Succeeded)
+                return RedirectToAction("Index");
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadAvatar(IFormFile uploadedFile)
+        {
+            if (uploadedFile != null)
+            {
+                byte[] imageData = null;
+                using (var binaryReader = new BinaryReader(uploadedFile.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)uploadedFile.Length);
+                }
+                var user = await _userManager.GetUserAsync(User);
+                user.Avatar = imageData;
+
+                var result = await _userManager.UpdateAsync(user);
+
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

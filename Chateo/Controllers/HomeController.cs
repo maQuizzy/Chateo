@@ -178,7 +178,10 @@ namespace Chateo.Controllers
             foreach (var chat in chats)
             {
                 if (chat.ChatType == ChatType.Private)
+                {
                     chat.Title = chat.Users.First(u => u.Id != currentUserId).UserName;
+                    chat.Avatar = chat.Users.First(u => u.Id != currentUserId).Avatar;
+                }
             }
 
             var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";

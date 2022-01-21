@@ -19,6 +19,8 @@ namespace Chateo.Models
 
         public ChatType ChatType { get; set; }
 
+        public byte[] Avatar { get; set; }
+
         public ICollection<User> Users { get; set; }
         public ICollection<Message> Messages { get; set; }
 

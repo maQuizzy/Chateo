@@ -1,7 +1,6 @@
 @import url(nullablestyle.css);
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
-
 .more {
     background-color: white;
     height: 100%;
@@ -59,6 +58,8 @@
 .more__user-avatar {
     border-radius: 25px;
     margin-right: 20px;
+    width: 50px;
+    height: 50px;
 }
 
 .more__item-secondary {

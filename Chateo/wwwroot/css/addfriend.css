@@ -191,3 +191,9 @@
     font-size: 14px;
     line-height: 24px;
 }
+
+.friends__user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+}

@@ -2,13 +2,20 @@
 
 @{
     ViewBag.Title = "Profile";
-    ViewBag.Footer = "Contacts";
+    ViewBag.Footer = "Default";
 }
 
 <link href="~/css/profile.css" rel="stylesheet" />
 
 <div class="profile">
-    <img class="profile__avatar" src="~/img/example-avatar.jpg" alt="">
+    @if (Model.Avatar != null)
+    {
+        <img class="profile__avatar user-avatar" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Avatar))" />
+    }
+    else
+    {
+        <img class="profile__avatar user-no-avatar" src="/img/no-avatar-icon.svg" alt="" />
+    }
     <div class="profile__desc">
         <p>@Model.FirstName @Model.LastName</p>
         <p class="secondary-desc">@Model.UserName</p>

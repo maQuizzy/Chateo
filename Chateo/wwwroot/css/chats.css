@@ -32,6 +32,7 @@
 
 .chats__list {
     overflow-y: scroll;
+    padding-top: 16px;
 }
 
 .chats__list::-webkit-scrollbar {
@@ -57,9 +58,11 @@
     background: #F7F7FC;
 }
 
-.chats__list-item img {
-    display: block;
+.chats__user-avatar {
     margin-right: 12px;
+    height: 48px;
+    width: 48px;
+    border-radius: 16px;
 }
 
 .chats__user-desc {
@@ -68,7 +71,10 @@
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
-    line-height: 24px;
+}
+
+.chats__user-desc h3 {
+    margin-bottom: 8px;
 }
 
 .chats__user-desc span {

@@ -34,6 +34,9 @@ namespace Chateo.Controllers
 
             var chat = _appRepository.GetChatById(chatId);
 
+            if (chat == null)
+                return RedirectToAction("Index", "Home");
+
             int page = pageNumber ?? 0;
 
             var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";

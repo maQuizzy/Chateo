@@ -1,10 +1,24 @@
 body {
-    max-width: 375px;
     margin: 0 auto;
 }
 
 .main-container {
+    width: 100%;
     height: 100%;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.left-container {
+    margin: 0 auto;
+    height: 100%;
+    max-width: 800px;
+}
+
+.right-container {
+    background-color: antiquewhite;
+    height: 100%;
+    display: none;
 }
 
 .content-container {
@@ -25,4 +39,21 @@ body {
 .user-no-avatar {
     object-fit: none;
     background-color: #F7F7FC;
+}
+
+@media all and (min-width: 1200px) {
+    .main-container {
+        display: flex;
+        flex-direction: row;
+    }
+    .right-container {
+        display: block;
+        width: 20%;
+        margin: 0;
+    }
+    .left-container {
+        max-width: 1000px;
+        margin: 0;
+        width: 40%;
+    }
 }

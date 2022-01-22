@@ -10,14 +10,17 @@
 }
 
 .contacts__search-panel {
+    padding-left: 24px;
+    padding-right: 24px;
+    width: 100%;
     padding-bottom: 16px;
     margin: 0 auto;
     box-shadow: 0px 1px 24px rgba(0, 0, 0, 0.04);
 }
 
 .contacts__search-panel input {
+    width: 100%;
     border-radius: 4px;
-    width: 327px;
     height: 36px;
     display: block;
     margin: 0 auto;
@@ -31,6 +34,8 @@
 }
 
 .contacts__list {
+    padding-left: 24px;
+    padding-right: 24px;
     padding-top: 16px;
     overflow-y: scroll;
 }
@@ -43,7 +48,6 @@
 .contacts__list-empty-item {
     display: flex;
     flex-direction: row;
-    width: 327px;
     margin: 0 auto;
     align-items: flex-start;
     padding-top: 12px;

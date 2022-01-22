@@ -1,10 +1,10 @@
-﻿<div class="footer__menu">
+﻿<div class="footer__menu chat-menu">
     <a class="footer__plus-button" href=""><img src="~/img/plus.svg" alt=""></a>
     <form id="sendMessageForm" method="post" asp-action="SendMessage" target="dummyframe">
         <input name="messageText" id="send-message" type="text">
         <input name="chatId" type="hidden" value="@Model.Id" />
-        <button id="send-button" type="button" class="footer__send-button"><img src="~/img/send-alt-filled.svg" alt=""></button>
     </form>
+    <button form="sendMessageForm" id="send-button" type="button" class="footer__send-button"><img src="~/img/send-alt-filled.svg" alt=""></button>
 </div>
 
 <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>

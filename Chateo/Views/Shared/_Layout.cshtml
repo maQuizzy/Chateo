@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/css/header.css">
     <link rel="stylesheet" href="~/css/footer.css">
     <link rel="stylesheet" href="~/css/main.css" />
+    <link rel="stylesheet" href="~/css/profile-container.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -24,7 +25,7 @@
             </div>
         </div>
         <div class="right-container">
-
+            @await Component.InvokeAsync("Profile") 
         </div>
     </main>
     <script src="~/lib/jquery/jquery.min.js"></script>

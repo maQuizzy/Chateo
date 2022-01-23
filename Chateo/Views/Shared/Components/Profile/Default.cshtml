@@ -1,0 +1,41 @@
+﻿@model ProfileComponentViewModel
+
+<div class="profile-container">
+    <div class="profile-container__header">
+        <a asp-controller="Profile" asp-action="Index" class="profile-container__profile">
+            <div class="profile-container__profile-info">
+                @if (Model.User.Avatar != null)
+                {
+                    <img class="user-avatar" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.User.Avatar))" />
+                }
+                else
+                {
+                    <img class="user-no-avatar" src="/img/no-avatar-icon-small.svg" alt="" />
+                }
+                <div class="profile-container__profile-desc">
+                    <p>@Model.User.FirstName @Model.User.LastName</p>
+                    <p class="profile-container__desc-secondary">@Model.User.UserName</p>
+                </div>
+            </div>
+            <img src="~/img/chevron_right.svg" alt="" />
+        </a>
+    </div>
+    <hr class="contacts-top" />
+    <div class="profile-container__chats-list">
+        @foreach (var chat in Model.TopChats)
+        {
+            <a asp-action="Index" asp-controller="Chat" asp-route-chatId="@chat.Id" class="profile-container__chat">
+                @if (chat.Avatar != null)
+                {
+                    <img class="user-avatar" src="data:image/jpeg;base64,@(Convert.ToBase64String(chat.Avatar))" />
+                }
+                else
+                {
+                    <img class="user-no-avatar" src="/img/no-avatar-icon-small.svg" alt="" />
+                }
+                <span>@chat.Title</span>
+            </a>
+
+        }
+    </div>
+</div>

@@ -145,9 +145,8 @@ namespace Chateo.Infrastructure.Repositories
 
         public IEnumerable<Chat> GetChatsByUserId(string userId)
         {
-            var user = new User { Id = userId };
-
-            _ctx.Users.Attach(user);
+            var user = _ctx.Users
+                .First(u => u.Id == userId);
 
             var chats = _ctx.Chats
                 .Include(c => c.Users)

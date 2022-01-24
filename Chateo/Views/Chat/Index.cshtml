@@ -67,11 +67,11 @@
     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
 
     <script>
-        const hubConnection = new signalR.HubConnectionBuilder()
+        const chatHubConnection = new signalR.HubConnectionBuilder()
             .withUrl("/Chathub")
             .build();
 
-        hubConnection.start();
+        chatHubConnection.start();
     </script>
 </body>
 </html>

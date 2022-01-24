@@ -67,6 +67,7 @@ namespace Chateo
             app.UseEndpoints(routes =>
             {
                 routes.MapHub<ChatHub>("/Chathub");
+                routes.MapHub<MainHub>("/Mainhub");
                 routes.MapDefaultControllerRoute();
             });
         }

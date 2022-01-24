@@ -99,5 +99,10 @@ hr {
     width: 36px;
     height: 36px;
     border-radius: 12px;
+}
+
+.profile-container__user-avatar {
+    display: inline-block;
+    position: relative;
     margin-right: 20px;
 }

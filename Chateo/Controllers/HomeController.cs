@@ -179,8 +179,10 @@ namespace Chateo.Controllers
             {
                 if (chat.ChatType == ChatType.Private)
                 {
-                    chat.Title = chat.Users.First(u => u.Id != currentUserId).UserName;
-                    chat.Avatar = chat.Users.First(u => u.Id != currentUserId).Avatar;
+                    var otherUser = chat.Users.First(u => u.Id != currentUserId);
+                    chat.Title = otherUser.UserName;
+                    chat.Avatar = otherUser.Avatar;
+                    chat.OtherUser = otherUser;
                 }
             }
 

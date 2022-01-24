@@ -39,8 +39,10 @@ namespace Chateo.Components
             {
                 if (chat.ChatType == ChatType.Private)
                 {
-                    chat.Title = chat.Users.First(u => u.Id != currentUser.Id).UserName;
-                    chat.Avatar = chat.Users.First(u => u.Id != currentUser.Id).Avatar;
+                    var otherUser = chat.Users.First(u => u.Id != currentUser.Id);
+                    chat.Title = otherUser.UserName;
+                    chat.Avatar = otherUser.Avatar;
+                    chat.OtherUser = otherUser;
                 }
             }
 

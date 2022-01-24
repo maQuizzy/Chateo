@@ -25,14 +25,20 @@
         @foreach (var chat in Model.TopChats)
         {
             <a asp-action="Index" asp-controller="Chat" asp-route-chatId="@chat.Id" class="profile-container__chat">
-                @if (chat.Avatar != null)
-                {
-                    <img class="user-avatar" src="data:image/jpeg;base64,@(Convert.ToBase64String(chat.Avatar))" />
-                }
-                else
-                {
-                    <img class="user-no-avatar" src="/img/no-avatar-icon-small.svg" alt="" />
-                }
+                <div class="profile-container__user-avatar">
+                    @if (chat.Avatar != null)
+                    {
+                        <img class="user-avatar" src="data:image/jpeg;base64,@(Convert.ToBase64String(chat.Avatar))" />
+                    }
+                    else
+                    {
+                        <img class="user-no-avatar" src="/img/no-avatar-icon-small.svg" alt="" />
+                    }
+                    @if (chat.OtherUser.IsOnline == true)
+                    {
+                        <div class="user-status-small"></div>
+                    }
+                </div>
                 <span>@chat.Title</span>
             </a>
 

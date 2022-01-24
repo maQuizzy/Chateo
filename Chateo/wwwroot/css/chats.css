@@ -132,3 +132,7 @@
     font-size: 14px;
     line-height: 24px;
 }
+
+.chats__user-avatar {
+    position: relative;
+}

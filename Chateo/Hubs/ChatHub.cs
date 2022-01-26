@@ -33,5 +33,13 @@ namespace Chateo.Hubs
         {
             return Groups.RemoveFromGroupAsync(Context.ConnectionId, chatId);
         }
+
+        public async Task ReadMessage(string chatId, int messageId)
+        {
+            var message = _appRepository.GetMessageById(messageId);
+
+            await _appRepository.ReadMessageAsync(messageId);
+            await Clients.User(message.User.UserName).SendAsync("ReadMessageReceive", messageId);
+        }
     }
 }

@@ -8,7 +8,7 @@
 
 <div class="chat">
     <div class="chat__message-history" id="chat-history">
-        @await Html.PartialAsync("Messages",Model.Messages)
+        @await Html.PartialAsync("Messages",Model.Messages.TakeLast((int)ViewBag.ChatPageSize))
     </div>
 </div>
 
@@ -23,28 +23,48 @@
     <script>
         const otherUser = "@ViewBag.ChatTitle";
 
-        const hubConnection = new signalR.HubConnectionBuilder()
+        const chatHubConnection = new signalR.HubConnectionBuilder()
             .withUrl("/Chathub")
             .build();
 
-        hubConnection.start()
+        chatHubConnection.start()
             .then(function () {
-                hubConnection.invoke("JoinChat", "@Model.Id");
+                chatHubConnection.invoke("JoinChat", "@Model.Id");
             });
 
-        hubConnection.on("ReceiveMessage", function (text, userName, hour, min) {
+        chatHubConnection.on("ReceiveMessage", function (id, text, userName, hour, min) {
             let messageBlock;
 
             if (userName == otherUser) {
-                messageBlock = CreateOtherMessage(text, hour, min);
+                messageBlock = CreateOtherMessage(id, text, hour, min);
             }
             else {
-                messageBlock = CreateSelfMessage(text, hour, min);
+                messageBlock = CreateSelfMessage(id, text, hour, min);
             }
 
             document.getElementById("chat-history").appendChild(messageBlock);
 
+            if (userName == otherUser) {
+                chatHubConnection.invoke("ReadMessage", "@Model.Id", id);
+            }
+
+            console.log(messageBlock.offsetTop);
             messageBlock.scrollIntoView();
+
+        });
+
+        chatHubConnection.on("ReadMessageReceive", function (messageId) {
+            let messageDescBlock = $('#message-' + messageId + ' .chat__message-desc');
+
+            let dotParagraph = document.createElement("p");
+            dotParagraph.textContent = "·";
+
+            let statusParagraph = document.createElement("p");
+            statusParagraph.textContent = "Read";
+
+            messageDescBlock.append(dotParagraph);
+            messageDescBlock.append(statusParagraph);
+
         });
     </script>
     <script>
@@ -83,7 +103,7 @@
         $("#chat-history").scroll(function () {
             if (chatHistory.scrollHeight - chatHistory.scrollTop == chatHistory.clientHeight) {
                 $("#chat-history").scroll(function () {
-                    if ($("#chat-history").scrollTop() <= 300) {
+                    if ($("#chat-history").scrollTop() <= 100) {
                         loadMessages();
                     }
                 });

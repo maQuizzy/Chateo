@@ -29,7 +29,9 @@ namespace Chateo.Controllers
             _appRepository = chatRepository;
         }
 
-        public async Task<IActionResult> Index(int chatId, int? pageNumber)
+        public async Task<IActionResult> Index(int chatId,
+            int? pageNumber,
+            [FromServices] IHubContext<ChatHub> chatHub)
         {
 
             var chat = _appRepository.GetChatById(chatId);
@@ -54,19 +56,32 @@ namespace Chateo.Controllers
             if (chat == null)
                 return RedirectToAction("Index", "Home");
 
-            if(chat.ChatType == ChatType.Private)
+            if (chat.ChatType == ChatType.Private)
             {
                 var otherUser = chat.Users.First(user => user.Id != User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-                chat.Title = otherUser.UserName;
-                chat.Messages = chat.Messages.TakeLast(ChatPageSize).ToList();
                 ViewBag.ChatTitle = otherUser.UserName;
                 ViewBag.OtherUserId = otherUser.Id;
+                ViewBag.ChatPageSize = ChatPageSize;
+
+                await ReadMessages(chat.Id, currentUser.Id, chatHub);
 
                 return View("Private", chat);
             }
 
             return Ok();
+        }
+
+        private async Task ReadMessages(int chatId, string currentUserId, IHubContext<ChatHub> chatHub)
+        {
+            var notReadMessages = _appRepository.GetChatById(chatId).Messages
+                .Where(m => m.Read == false && m.UserId != currentUserId);
+
+            foreach (var notReadMess in notReadMessages)
+            {
+                await chatHub.Clients.User(notReadMess.User.UserName).SendAsync("ReadMessageReceive", notReadMess.Id);
+                await _appRepository.ReadMessageAsync(notReadMess.Id);
+            }
         }
 
         private IEnumerable<Message> GetMessagesPage(IEnumerable<Message> messages, int page = 1)
@@ -82,7 +97,7 @@ namespace Chateo.Controllers
 
         [HttpPost]
         public async Task<IActionResult> SendMessage(
-            int chatId, 
+            int chatId,
             string messageText,
             [FromServices] IHubContext<ChatHub> chatHub)
         {
@@ -97,14 +112,14 @@ namespace Chateo.Controllers
 
                 var currentDate = DateTime.Now;
 
-                await _appRepository.CreateMessageAsync(
+                var message = await _appRepository.CreateMessageAsync(
                 chatId,
                 user.Id,
                 messageText,
                 currentDate);
 
                 await chatHub.Clients.Group(chatId.ToString())
-                    .SendAsync("ReceiveMessage", messageText, user.UserName, currentDate.Hour, currentDate.Minute);
+                    .SendAsync("ReceiveMessage", message.Id, messageText, user.UserName, currentDate.Hour, currentDate.Minute);
             }
 
             return Ok();

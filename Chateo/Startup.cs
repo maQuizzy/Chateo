@@ -44,6 +44,8 @@ namespace Chateo
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
+            services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+
             services.AddTransient<IAppRepository, EfAppRepository>();
         }
 

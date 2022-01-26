@@ -17,6 +17,22 @@ namespace Chateo.Infrastructure.Repositories
             _ctx = ctx;
         }
 
+        public Message GetMessageById(int messageId)
+        {
+            return _ctx.Messages
+                .Include(m => m.User)
+                .First(m => m.Id == messageId);
+        }
+
+        public async Task ReadMessageAsync(int messageId)
+        {
+            var message = _ctx.Messages.First(m => m.Id == messageId);
+
+            message.Read = true;
+
+            await _ctx.SaveChangesAsync();
+        }
+
         public async Task DeleteFriendRequestAsync(string userId1, string userId2)
         {
             var friendRequest = _ctx.FriendRequests

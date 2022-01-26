@@ -1,5 +1,5 @@
-var CreateOtherMessage = function(text) {
-    var descBlock = CreateMessageDescBlock("chat__message-desc");
+var CreateOtherMessage = function(text, hour, min) {
+    var descBlock = CreateMessageDescBlock("chat__message-desc", hour, min);
     var textParagraph = CreateTextParagraph(text);
     var messageContent = CreateMessageContentBlock("chat__other-message-content", textParagraph, descBlock);
     var messageBlock = CreateMessageBlock("chat__other-message", messageContent);
@@ -7,8 +7,8 @@ var CreateOtherMessage = function(text) {
     return messageBlock;
 }
 
-var CreateSelfMessage = function(text) {
-    var descBlock = CreateMessageDescBlock("chat__message-desc");
+var CreateSelfMessage = function(text, hour, min) {
+    var descBlock = CreateMessageDescBlock("chat__message-desc", hour, min);
     var textParagraph = CreateTextParagraph(text);
     var messageContent = CreateMessageContentBlock("chat__self-message-content", textParagraph, descBlock);
     var messageBlock = CreateMessageBlock("chat__self-message", messageContent);
@@ -46,13 +46,13 @@ var CreateTextParagraph = function(messageText) {
     return textParagraph;
 }
 
-var CreateMessageDescBlock = function(classname) {
+var CreateMessageDescBlock = function(classname, hour, min) {
     var messageDescBlock = document.createElement("div");
 
     messageDescBlock.classList.add(classname);
 
     var timeParagraph = document.createElement("p");
-    timeParagraph.textContent = "16:50";
+    timeParagraph.textContent = hour + ':' + min;
 
     var dotParagraph = document.createElement("p");
     dotParagraph.textContent = "·";

@@ -20,6 +20,6 @@ namespace Chateo.Infrastructure.Repositories
         Chat GetChatById(int chatId);
         IEnumerable<Chat> GetChatsByUserId(string userId);
         Task<int> CreatePrivateChatAsync(string userId1, string userId2);
-        Task<Message> CreateMessageAsync(int chatId, string userId, string messageText);
+        Task<Message> CreateMessageAsync(int chatId, string userId, string messageText, DateTime date);
     }
 }

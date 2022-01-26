@@ -32,14 +32,14 @@
                 hubConnection.invoke("JoinChat", "@Model.Id");
             });
 
-        hubConnection.on("ReceiveMessage", function (text, userName) {
+        hubConnection.on("ReceiveMessage", function (text, userName, hour, min) {
             let messageBlock;
 
             if (userName == otherUser) {
-                messageBlock = CreateOtherMessage(text);
+                messageBlock = CreateOtherMessage(text, hour, min);
             }
             else {
-                messageBlock = CreateSelfMessage(text);
+                messageBlock = CreateSelfMessage(text, hour, min);
             }
 
             document.getElementById("chat-history").appendChild(messageBlock);

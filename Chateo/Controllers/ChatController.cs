@@ -95,13 +95,16 @@ namespace Chateo.Controllers
             if (chat.Users.Contains(user))
             {
 
+                var currentDate = DateTime.Now;
+
                 await _appRepository.CreateMessageAsync(
                 chatId,
                 user.Id,
-                messageText);
+                messageText,
+                currentDate);
 
                 await chatHub.Clients.Group(chatId.ToString())
-                    .SendAsync("ReceiveMessage", messageText, user.UserName);
+                    .SendAsync("ReceiveMessage", messageText, user.UserName, currentDate.Hour, currentDate.Minute);
             }
 
             return Ok();

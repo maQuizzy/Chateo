@@ -119,7 +119,7 @@ namespace Chateo.Controllers
                 currentDate);
 
                 await chatHub.Clients.Group(chatId.ToString())
-                    .SendAsync("ReceiveMessage", message.Id, messageText, user.UserName, currentDate.Hour, currentDate.Minute);
+                    .SendAsync("ReceiveMessage", message.Id, messageText, user.UserName, currentDate.ToString("t"));
             }
 
             return Ok();

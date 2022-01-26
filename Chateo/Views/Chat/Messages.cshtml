@@ -8,7 +8,7 @@
             <div class="chat__other-message-content">
                 <p>@message.Text</p>
                 <div class="chat__message-desc">
-                    <p>@message.Date.Hour:@message.Date.Minute</p>
+                    <p>@message.Date.ToString("t")</p>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
             <div class="chat__self-message-content">
                 <p>@message.Text</p>
                 <div class="chat__message-desc">
-                    <p>@message.Date.Hour:@message.Date.Minute</p>
+                    <p>@message.Date.ToString("t")</p>
                     @if (message.Read)
                     {
                         <p>·</p>

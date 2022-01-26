@@ -32,14 +32,14 @@
                 chatHubConnection.invoke("JoinChat", "@Model.Id");
             });
 
-        chatHubConnection.on("ReceiveMessage", function (id, text, userName, hour, min) {
+        chatHubConnection.on("ReceiveMessage", function (id, text, userName, time) {
             let messageBlock;
 
             if (userName == otherUser) {
-                messageBlock = CreateOtherMessage(id, text, hour, min);
+                messageBlock = CreateOtherMessage(id, text, time);
             }
             else {
-                messageBlock = CreateSelfMessage(id, text, hour, min);
+                messageBlock = CreateSelfMessage(id, text, time);
             }
 
             document.getElementById("chat-history").appendChild(messageBlock);

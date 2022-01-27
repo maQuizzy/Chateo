@@ -24,11 +24,14 @@ namespace Chateo.Infrastructure.Repositories
                 .First(m => m.Id == messageId);
         }
 
-        public async Task ReadMessageAsync(int messageId)
+        public async Task ReadMessageAsync(string userId, int messageId)
         {
             var message = _ctx.Messages.First(m => m.Id == messageId);
 
             message.Read = true;
+
+            var chatUser = _ctx.ChatUsers.First(c => c.UserId == userId && c.ChatId == message.ChatId);
+            chatUser.UnreadMessages--;
 
             await _ctx.SaveChangesAsync();
         }
@@ -183,6 +186,12 @@ namespace Chateo.Infrastructure.Repositories
             };
 
             _ctx.Messages.Add(message);
+
+            var chatUsers = _ctx.ChatUsers.Where(t => t.ChatId == chatId && t.UserId != userId);
+
+            foreach (var chatUser in chatUsers)
+                chatUser.UnreadMessages++;
+
             await _ctx.SaveChangesAsync();
 
             return message;

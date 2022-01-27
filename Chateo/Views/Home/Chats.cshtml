@@ -37,12 +37,12 @@
         </div>
     </div>
     <div id="chats-list" class="chats__list">
-        @await Html.PartialAsync("ChatsList", Model) 
+        @await Html.PartialAsync("ChatsList", Model)
     </div>
 </div>
 
 @section scripts
-{ 
+{
     <script>
         $("#chat-search-input").on("input", function () {
             $("#chats-list").empty();
@@ -69,5 +69,27 @@
                     }
                 });
         }
+    </script>
+
+    <script>
+        mainHubConnection.on("ReceiveMessageInChatList", function (chatId, text, userName, time) {
+            let unreadCountElement = document.querySelector("#chat-" + chatId + " .chats__unread-count");
+
+            if (unreadCountElement != null) {
+                unreadCountElement.textContent++;
+            }
+            else {
+                unreadCountElement = document.createElement("span");
+                unreadCountElement.textContent = 1;
+                unreadCountElement.classList.add('chats__unread-count');
+
+                let messageDesc = document.querySelector("#chat-" + chatId + " .chats__message-desc");
+
+                messageDesc.append(unreadCountElement);
+            }
+
+            let messageText = document.querySelector("#chat-" + chatId + " .chats__last-message");
+            messageText.textContent = text;
+        });
     </script>
 }

@@ -2,7 +2,7 @@
 
 @foreach (var chat in Model)
 {
-    <a asp-controller="Chat" asp-action="Index" asp-route-chatId="@chat.Id" class="chats__list-item">
+    <a asp-controller="Chat" asp-action="Index" asp-route-chatId="@chat.Id" class="chats__list-item" id="chat-@chat.Id">
         <div class="chats__user-avatar">
             @if (chat.Avatar != null)
             {
@@ -21,11 +21,21 @@
             <h3>@chat.Title</h3>
             @if (chat.Messages.Count > 0)
             {
-                <span>@chat.Messages.Last().Text</span>
+                <span class="chats__last-message">@chat.Messages.Last().Text</span>
             }
             else
             {
-                <span></span>
+                <span class="chats__last-message"></span>
+            }
+        </div>
+        <div class="chats__message-desc">
+            <span class="chats__message-time">@chat.Messages.Last().Date.ToString("t")</span>
+            @{
+                var unreadMessages = chat.ChatUsers.First(c => c.UserId == ViewBag.CurrentUserId).UnreadMessages;
+            }
+            @if (unreadMessages > 0)
+            {
+                <span class="chats__unread-count">@chat.ChatUsers.First(c => c.UserId == ViewBag.CurrentUserId).UnreadMessages</span>
             }
         </div>
     </a>

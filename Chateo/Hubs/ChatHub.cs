@@ -36,9 +36,11 @@ namespace Chateo.Hubs
 
         public async Task ReadMessage(string chatId, int messageId)
         {
+            var currentUserId = Context.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             var message = _appRepository.GetMessageById(messageId);
 
-            await _appRepository.ReadMessageAsync(messageId);
+            await _appRepository.ReadMessageAsync(currentUserId, messageId);
             await Clients.User(message.User.UserName).SendAsync("ReadMessageReceive", messageId);
         }
     }

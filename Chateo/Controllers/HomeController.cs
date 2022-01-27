@@ -172,6 +172,7 @@ namespace Chateo.Controllers
         public IActionResult Chats(string search)
         {
             string currentUserId = this.GetCurrentUserId();
+            ViewBag.CurrentUserId = currentUserId;
 
             var chats = _appRepository.GetChatsByUserId(currentUserId);
 

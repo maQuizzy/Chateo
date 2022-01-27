@@ -14,7 +14,7 @@ namespace Chateo.Databases
         public DbSet<Message> Messages { get; set; }
         public DbSet<Friendship> Friendships { get; set; }
         public DbSet<FriendRequest> FriendRequests { get; set; }
-
+        public DbSet<ChatUser> ChatUsers { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -54,6 +54,29 @@ namespace Chateo.Databases
                     .HasForeignKey(x => x.UserToId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+            builder
+                .Entity<Chat>()
+                .HasMany(c => c.Users)
+                .WithMany(u => u.Chats)
+                .UsingEntity<ChatUser>(
+
+                j => j
+                .HasOne(t => t.User)
+                .WithMany(t => t.ChatUsers)
+                .HasForeignKey(t => t.UserId),
+
+                j => j
+                .HasOne(t => t.Chat)
+                .WithMany(t => t.ChatUsers)
+                .HasForeignKey(t => t.ChatId),
+
+                j =>
+                {
+                    j.HasKey(t => new { t.ChatId, t.UserId });
+                    j.ToTable("ChatUser");
+                }
+                );
         }
     }
 }

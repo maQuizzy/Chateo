@@ -9,7 +9,7 @@ namespace Chateo.Infrastructure.Repositories
     public interface IAppRepository
     {
         Message GetMessageById(int messageId);
-        Task ReadMessageAsync(int messageId);
+        Task ReadMessageAsync(string userId, int messageId);
         Chat GetPrivateChatByUsersId(string userId1, string userId2);
         Task DeleteFriendRequestAsync(string userId1, string userId2);
         IEnumerable<FriendRequest> GetFriendRequestsFrom(string userFromId);

@@ -15,13 +15,14 @@ namespace Chateo.Models
         public bool IsOnline { get; set; }
         public byte[] Avatar { get; set; }
 
-        public ICollection<Chat> Chats { get; set; }
-        public ICollection<Message> Messages { get; set; }
+        public ICollection<ChatUser> ChatUsers { get; set; } = new List<ChatUser>();
+        public ICollection<Chat> Chats { get; set; } = new List<Chat>();
+        public ICollection<Message> Messages { get; set; } = new List<Message>(); 
         
-        public ICollection<Friendship> FriendsOf { get; set; }
-        public ICollection<Friendship> Friends { get; set; }
+        public ICollection<Friendship> FriendsOf { get; set; } = new List<Friendship>(); 
+        public ICollection<Friendship> Friends { get; set; } = new List<Friendship>(); 
 
-        public ICollection<FriendRequest> FriendRequestsOf { get; set; }
-        public ICollection<FriendRequest> FriendRequests { get; set; }
+        public ICollection<FriendRequest> FriendRequestsOf { get; set; } = new List<FriendRequest>(); 
+        public ICollection<FriendRequest> FriendRequests { get; set; } = new List<FriendRequest>(); 
     }
 }

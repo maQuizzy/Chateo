@@ -80,7 +80,7 @@ namespace Chateo.Controllers
             foreach (var notReadMess in notReadMessages)
             {
                 await chatHub.Clients.User(notReadMess.User.UserName).SendAsync("ReadMessageReceive", notReadMess.Id);
-                await _appRepository.ReadMessageAsync(notReadMess.Id);
+                await _appRepository.ReadMessageAsync(currentUserId, notReadMess.Id);
             }
         }
 
@@ -99,7 +99,8 @@ namespace Chateo.Controllers
         public async Task<IActionResult> SendMessage(
             int chatId,
             string messageText,
-            [FromServices] IHubContext<ChatHub> chatHub)
+            [FromServices] IHubContext<ChatHub> chatHub,
+            [FromServices] IHubContext<MainHub> mainHub)
         {
             if (string.IsNullOrEmpty(messageText))
                 return Ok();
@@ -120,6 +121,12 @@ namespace Chateo.Controllers
 
                 await chatHub.Clients.Group(chatId.ToString())
                     .SendAsync("ReceiveMessage", message.Id, messageText, user.UserName, currentDate.ToString("t"));
+
+                var userIds = chat.Users
+                    .Where(u => u.Id != user.Id)
+                    .Select(u => u.UserName);
+
+                await mainHub.Clients.Users(userIds).SendAsync("ReceiveMessageInChatList", chatId, messageText, user.UserName, currentDate.ToString("t"));
             }
 
             return Ok();

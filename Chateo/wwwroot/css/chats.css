@@ -136,3 +136,38 @@
 .chats__user-avatar {
     position: relative;
 }
+
+.chats__message-desc {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.chats__message-time {
+    margin-left: auto;
+    display: inline-block;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 16px;
+    color: #A4A4A4;
+    margin-bottom: 8px;
+}
+
+.chats__unread-count {
+    margin-left: auto;
+    display: flex;
+    width: 22px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    background: #D2D5F9;
+    border-radius: 40px;
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 16px;
+    color: #001AB3;
+}

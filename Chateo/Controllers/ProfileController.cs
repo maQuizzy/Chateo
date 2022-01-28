@@ -83,13 +83,14 @@ namespace Chateo.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadAvatar(IFormFile uploadedFile)
         {
-            if (uploadedFile != null)
+            if (uploadedFile != null && uploadedFile.IsImage())
             {
                 byte[] imageData = null;
                 using (var binaryReader = new BinaryReader(uploadedFile.OpenReadStream()))
                 {
                     imageData = binaryReader.ReadBytes((int)uploadedFile.Length);
                 }
+
                 var user = await _userManager.GetUserAsync(User);
                 user.Avatar = imageData;
 

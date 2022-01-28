@@ -90,6 +90,9 @@
 
             let messageText = document.querySelector("#chat-" + chatId + " .chats__last-message");
             messageText.textContent = text;
+
+            let messageTime = document.querySelector("#chat-" + chatId + " .chats__message-time");
+            messageTime.textContent = time;
         });
     </script>
 }

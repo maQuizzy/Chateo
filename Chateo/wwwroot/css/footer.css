@@ -1,12 +1,8 @@
 @import url(nullablestyle.css);
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Mulish:wght@400;600;700&display=swap');
-.footer {
-    height: 56px;
-}
-
 .footer__menu {
-    height: 100%;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -86,8 +82,12 @@
     padding: 6px 8px;
 }
 
-.footer__menu form {
+.footer__send-message-form {
     width: 100%;
+}
+
+input[type="file"] {
+    display: none;
 }
 
 .footer__plus-button {
@@ -115,4 +115,15 @@
 
 .footer__send-button img:hover {
     filter: invert(13%) sepia(100%) saturate(4959%) hue-rotate(232deg) brightness(84%) contrast(116%);
+}
+
+.footer__image-preview img {
+    max-width: 150px;
+    max-height: 65px;
+}
+
+.footer__image-preview {
+    padding: 5px;
+    height: 75px;
+    background-color: #EDEDED;
 }

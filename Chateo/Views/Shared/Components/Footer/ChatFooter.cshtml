@@ -1,6 +1,11 @@
-﻿<div class="footer__menu chat-menu">
-    <a class="footer__plus-button" href=""><img src="~/img/plus.svg" alt=""></a>
-    <form id="sendMessageForm" method="post" asp-action="SendMessage" target="dummyframe">
+﻿<div class="footer__image-preview" id="footerImagePreview" style="display: none;">
+</div>
+<div class="footer__menu chat-menu">
+    <label class="footer__plus-button">
+        <input id="messageFileInput" form="sendMessageForm" name="uploadedFile" type="file"/>
+        <img src="~/img/plus.svg" alt="">
+    </label>
+    <form class="footer__send-message-form" id="sendMessageForm" method="post" asp-action="SendMessage" enctype="multipart/form-data" target="dummyframe">
         <input name="messageText" id="send-message" type="text">
         <input name="chatId" type="hidden" value="@Model.Id" />
     </form>

@@ -1,22 +1,16 @@
 ﻿@model IEnumerable<Message>
+@using System.Security.Claims;
 
 @foreach (var message in Model)
 {
-    if (message.UserId == ViewBag.OtherUserId)
-    {
-        <div id="message-@message.Id" class="chat__other-message">
-            <div class="chat__other-message-content">
-                <p>@message.Text</p>
-                <div class="chat__message-desc">
-                    <p>@message.Date.ToString("t")</p>
-                </div>
-            </div>
-        </div>
-    }
-    else
+    if (message.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
     {
         <div id="message-@message.Id" class="chat__self-message ">
             <div class="chat__self-message-content">
+                @if (message.Image != null)
+                {
+                    <img class="chat__message-img" src="data:image/jpeg;base64,@(Convert.ToBase64String(message.Image))" alt="Alternate Text" />
+                }
                 <p>@message.Text</p>
                 <div class="chat__message-desc">
                     <p>@message.Date.ToString("t")</p>
@@ -25,6 +19,21 @@
                         <p>·</p>
                         <p>Read</p>
                     }
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div id="message-@message.Id" class="chat__other-message">
+            <div class="chat__other-message-content">
+                @if (message.Image != null)
+                {
+                    <img class="chat__message-img" src="data:image/jpeg;base64,@(Convert.ToBase64String(message.Image))" alt="Alternate Text" />
+                }
+                <p>@message.Text</p>
+                <div class="chat__message-desc">
+                    <p>@message.Date.ToString("t")</p>
                 </div>
             </div>
         </div>

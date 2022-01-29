@@ -29,7 +29,14 @@
             }
         </div>
         <div class="chats__message-desc">
-            <span class="chats__message-time">@chat.Messages.Last().Date.ToString("t")</span>
+            @if (chat.Messages.Count > 0)
+            {
+                <span class="chats__message-time">@chat.Messages.Last().Date.ToString("t")</span>
+            }
+            else
+            {
+                <span class="chats__message-time"></span>
+            }
             @{
                 var unreadMessages = chat.ChatUsers.First(c => c.UserId == ViewBag.CurrentUserId).UnreadMessages;
             }

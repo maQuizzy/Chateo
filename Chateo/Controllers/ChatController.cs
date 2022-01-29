@@ -12,6 +12,9 @@ using Chateo.Infrastructure;
 using Chateo.Infrastructure.Repositories;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Chateo.Extensions;
+using System.IO;
 
 namespace Chateo.Controllers
 {
@@ -99,10 +102,11 @@ namespace Chateo.Controllers
         public async Task<IActionResult> SendMessage(
             int chatId,
             string messageText,
+            IFormFile uploadedFile,
             [FromServices] IHubContext<ChatHub> chatHub,
             [FromServices] IHubContext<MainHub> mainHub)
         {
-            if (string.IsNullOrEmpty(messageText))
+            if (string.IsNullOrEmpty(messageText) && uploadedFile == null)
                 return Ok();
 
             var chat = _appRepository.GetChatById(chatId);
@@ -110,6 +114,15 @@ namespace Chateo.Controllers
 
             if (chat.Users.Contains(user))
             {
+                byte[] imageData = null;
+
+                if (uploadedFile != null && uploadedFile.IsImage())
+                {
+                    using (var binaryReader = new BinaryReader(uploadedFile.OpenReadStream()))
+                    {
+                        imageData = binaryReader.ReadBytes((int)uploadedFile.Length);
+                    }
+                }
 
                 var currentDate = DateTime.Now;
 
@@ -117,10 +130,11 @@ namespace Chateo.Controllers
                 chatId,
                 user.Id,
                 messageText,
+                imageData,
                 currentDate);
 
                 await chatHub.Clients.Group(chatId.ToString())
-                    .SendAsync("ReceiveMessage", message.Id, messageText, user.UserName, currentDate.ToString("t"));
+                    .SendAsync("ReceiveMessage", message.Id, messageText, imageData, user.UserName, currentDate.ToString("t"));
 
                 var userIds = chat.Users
                     .Where(u => u.Id != user.Id)

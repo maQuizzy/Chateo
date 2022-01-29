@@ -10,6 +10,8 @@ body {
 }
 
 .left-container {
+    display: flex;
+    flex-direction: column;
     margin: 0 auto;
     height: 100%;
 }
@@ -22,7 +24,12 @@ body {
 }
 
 .content-container {
-    height: calc(100% - 56px - 56px);
+    flex: 1;
+    overflow-y: scroll;
+}
+
+.content-container::-webkit-scrollbar {
+    display: none;
 }
 
 .search-input {

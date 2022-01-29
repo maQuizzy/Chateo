@@ -32,14 +32,14 @@
                 chatHubConnection.invoke("JoinChat", "@Model.Id");
             });
 
-        chatHubConnection.on("ReceiveMessage", function (id, text, userName, time) {
+        chatHubConnection.on("ReceiveMessage", function (id, text, image, userName, time) {
             let messageBlock;
 
             if (userName == otherUser) {
-                messageBlock = CreateOtherMessage(id, text, time);
+                messageBlock = CreateOtherMessage(id, text, image, time);
             }
             else {
-                messageBlock = CreateSelfMessage(id, text, time);
+                messageBlock = CreateSelfMessage(id, text, image, time);
             }
 
             document.getElementById("chat-history").appendChild(messageBlock);
@@ -70,6 +70,9 @@
         function sendMessageFormSubmit() {
             $('#sendMessageForm').submit();
             $('#send-message').val('');
+            $('#messageFileInput').val('');
+            var imagePreview = document.getElementById("footerImagePreview");
+            imagePreview.style.display = "none";
         }
 
         document.getElementById('send-button').addEventListener('click', sendMessageFormSubmit);
@@ -110,4 +113,5 @@
         });
 
     </script>
+    <script src="~/js/chatFooter.js"></script>
 }

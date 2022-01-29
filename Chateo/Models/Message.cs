@@ -9,6 +9,7 @@ namespace Chateo.Models
     {
         public int Id { get; set; }
         public string Text { get; set; }
+        public byte[] Image { get; set; }
         public DateTime Date { get; set; }
         public bool Read { get; set; }
 

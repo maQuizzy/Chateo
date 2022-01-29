@@ -175,13 +175,14 @@ namespace Chateo.Infrastructure.Repositories
             return chats;
         }
 
-        public async Task<Message> CreateMessageAsync(int chatId, string userId, string messageText, DateTime date)
+        public async Task<Message> CreateMessageAsync(int chatId, string userId, string messageText, byte[] image, DateTime date)
         {
             var message = new Message
             {
                 UserId = userId,
                 ChatId = chatId,
                 Text = messageText,
+                Image = image,
                 Date = date
             };
 

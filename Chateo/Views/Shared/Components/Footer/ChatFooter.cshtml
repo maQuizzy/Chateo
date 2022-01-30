@@ -1,4 +1,10 @@
-﻿<div class="footer__image-preview" id="footerImagePreview" style="display: none;">
+﻿<div class="footer__preview" id="footerPreview" style="display:none;">
+    <div class="footer__replied-message" style="display:none;">
+        <div class="footer__replied-message-content">
+            <p class="footer__replied-from"></p>
+            <p class="footer__replied-text"></p>
+        </div>
+    </div>
 </div>
 <div class="footer__menu chat-menu">
     <label class="footer__plus-button">
@@ -8,6 +14,7 @@
     <form class="footer__send-message-form" id="sendMessageForm" method="post" asp-action="SendMessage" enctype="multipart/form-data" target="dummyframe">
         <input name="messageText" id="send-message" type="text">
         <input name="chatId" type="hidden" value="@Model.Id" />
+        <input type="hidden" id="inputRepliedMessage" name="repliedMessageId" value="" />
     </form>
     <button form="sendMessageForm" id="send-button" type="button" class="footer__send-button"><img src="~/img/send-alt-filled.svg" alt=""></button>
 </div>

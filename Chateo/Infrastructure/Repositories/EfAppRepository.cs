@@ -175,7 +175,7 @@ namespace Chateo.Infrastructure.Repositories
             return chats;
         }
 
-        public async Task<Message> CreateMessageAsync(int chatId, string userId, string messageText, byte[] image, DateTime date)
+        public async Task<Message> CreateMessageAsync(int chatId, string userId, string messageText, byte[] image, DateTime date, int? repliedMessageId)
         {
             var message = new Message
             {
@@ -183,7 +183,8 @@ namespace Chateo.Infrastructure.Repositories
                 ChatId = chatId,
                 Text = messageText,
                 Image = image,
-                Date = date
+                Date = date,
+                RepliedMessageId = repliedMessageId
             };
 
             _ctx.Messages.Add(message);

@@ -13,6 +13,9 @@ namespace Chateo.Models
         public DateTime Date { get; set; }
         public bool Read { get; set; }
 
+        public Message RepliedMessage { get; set; }
+        public int? RepliedMessageId { get; set; }
+
         public User User { get; set; }
         public string UserId { get; set; }
 

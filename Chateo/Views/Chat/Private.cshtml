@@ -1,14 +1,14 @@
 ﻿@model Chat
 
 @{
-    ViewBag.Title = "Chat"; 
+    ViewBag.Title = "Chat";
 }
 
 <link rel="stylesheet" asp-href-include="css/chat.css">
 
 <div class="chat">
     <div class="chat__message-history" id="chat-history">
-        @await Html.PartialAsync("Messages",Model.Messages.TakeLast((int)ViewBag.ChatPageSize))
+        @await Html.PartialAsync("Messages", Model.Messages.TakeLast((int)ViewBag.ChatPageSize))
     </div>
 </div>
 
@@ -17,8 +17,11 @@
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/messageBuilder.js"></script>
     <script>
-        let chatHistory = document.getElementById("chat-history");
-        chatHistory.scrollTop = chatHistory.scrollHeight;
+        $(document).ready(function () {
+            let container = $('.chat__message-history');
+            container[0].scrollTop = container[0].scrollHeight;
+            container.css("scroll-behavior", "smooth");
+        });
     </script>
     <script>
         const otherUser = "@ViewBag.ChatTitle";
@@ -32,14 +35,14 @@
                 chatHubConnection.invoke("JoinChat", "@Model.Id");
             });
 
-        chatHubConnection.on("ReceiveMessage", function (id, text, image, userName, time) {
+        chatHubConnection.on("ReceiveMessage", function (id, text, image, userName, time, repliedUsername, repliedText, repliedImage) {
             let messageBlock;
 
             if (userName == otherUser) {
-                messageBlock = CreateOtherMessage(id, text, image, time);
+                messageBlock = CreateOtherMessage(id, userName, text, image, time, repliedUsername, repliedText, repliedImage);
             }
             else {
-                messageBlock = CreateSelfMessage(id, text, image, time);
+                messageBlock = CreateSelfMessage(id, userName, text, image, time, repliedUsername, repliedText, repliedImage);
             }
 
             document.getElementById("chat-history").appendChild(messageBlock);
@@ -49,6 +52,9 @@
             }
 
             messageBlock.scrollIntoView();
+
+            $(".chat__message-history div").off("click");
+            $(".chat__message-history div").click(checkMessage);
 
         });
 
@@ -71,8 +77,9 @@
             $('#sendMessageForm').submit();
             $('#send-message').val('');
             $('#messageFileInput').val('');
-            var imagePreview = document.getElementById("footerImagePreview");
-            imagePreview.style.display = "none";
+            var footerPreview = document.getElementById("footerPreview");
+            footerPreview.style.display = "none";
+            $('.footer__preview img').remove();
         }
 
         document.getElementById('send-button').addEventListener('click', sendMessageFormSubmit);
@@ -84,34 +91,75 @@
     <script>
         let page = 0;
 
+        let isLoading = false;
+
         let loadMessages = function () {
+
+            if (isLoading) {
+                return false;
+            }
+
             if (page > -1) {
+                isLoading = true;
                 page++;
                 $.ajax({
                     type: 'GET',
                     url: '@Url.Action("Index", "Chat")?chatId=@Model.Id&pageNumber=' + page,
                     success: function (data, textstatus) {
                         if ($.trim(data)) {
+                            let chatHistory = document.getElementById("chat-history");
+                            var fromBottom = chatHistory.scrollHeight - chatHistory.scrollTop;
+
+
                             $("#chat-history").prepend(data);
+
+                            $("#chat-history").css("scroll-behavior", "unset");
+                            chatHistory.scrollTop = chatHistory.scrollHeight - fromBottom;
+                            $("#chat-history").css("scroll-behavior", "smooth");
+
+                            $(".chat__message-history div").off("click");
+                            $(".chat__message-history div").click(checkMessage);
                         }
                         else {
                             page = -1;
                         }
+                        isLoading = false;
                     }
                 });
             }
+
         }
 
         $("#chat-history").scroll(function () {
-            if (chatHistory.scrollHeight - chatHistory.scrollTop == chatHistory.clientHeight) {
-                $("#chat-history").scroll(function () {
-                    if ($("#chat-history").scrollTop() <= 100) {
-                        loadMessages();
-                    }
-                });
+            if ($("#chat-history").scrollTop() <= 100) {
+                loadMessages();
             }
         });
 
     </script>
     <script src="~/js/chatFooter.js"></script>
+    <script>
+        let checkMessage = (e) => {
+            $(`.chat__message-history div:not(#${e.target.id})`).removeClass("checked-message");
+            e.target.classList.toggle("checked-message");
+
+            if ($('.checked-message').length > 0) {
+                setFooterReplyState(true);
+                let username = $(e.target).find(".chat__message-username").text();
+                let messageText = $(e.target).find(".chat__message-text").text();
+
+                addMessageToFooterPreview(username, messageText);
+
+                let messageId = $(e.target).find(".chat__message-id").text();
+                $("#inputRepliedMessage").val(messageId);
+            }
+            else {
+                setFooterReplyState(false);
+                deleteMessageFromFooterPreview();
+                $("#inputRepliedMessage").val('');
+            }
+        }
+
+        $(".chat__message-history div").click(checkMessage);
+    </script>
 }

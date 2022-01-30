@@ -102,6 +102,7 @@ namespace Chateo.Controllers
         public async Task<IActionResult> SendMessage(
             int chatId,
             string messageText,
+            int? repliedMessageId,
             IFormFile uploadedFile,
             [FromServices] IHubContext<ChatHub> chatHub,
             [FromServices] IHubContext<MainHub> mainHub)
@@ -131,16 +132,38 @@ namespace Chateo.Controllers
                 user.Id,
                 messageText,
                 imageData,
-                currentDate);
+                currentDate,
+                repliedMessageId);
+
+                Message repliedMessage = null;
+
+                if(repliedMessageId != null)
+                {
+                    int repliedId = (int)repliedMessageId;
+                    repliedMessage = _appRepository.GetMessageById(repliedId);
+                }
 
                 await chatHub.Clients.Group(chatId.ToString())
-                    .SendAsync("ReceiveMessage", message.Id, messageText, imageData, user.UserName, currentDate.ToString("t"));
+                    .SendAsync("ReceiveMessage",
+                    message.Id,
+                    messageText,
+                    imageData,
+                    user.UserName,
+                    currentDate.ToString("t"),
+                    repliedMessage?.User.UserName,
+                    repliedMessage?.Text,
+                    repliedMessage?.Image);
 
                 var userIds = chat.Users
                     .Where(u => u.Id != user.Id)
                     .Select(u => u.UserName);
 
-                await mainHub.Clients.Users(userIds).SendAsync("ReceiveMessageInChatList", chatId, messageText, user.UserName, currentDate.ToString("t"));
+                await mainHub.Clients.Users(userIds)
+                    .SendAsync("ReceiveMessageInChatList", 
+                    chatId, 
+                    messageText, 
+                    user.UserName, 
+                    currentDate.ToString("t"));
             }
 
             return Ok();

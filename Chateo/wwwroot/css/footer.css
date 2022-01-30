@@ -117,13 +117,49 @@ input[type="file"] {
     filter: invert(13%) sepia(100%) saturate(4959%) hue-rotate(232deg) brightness(84%) contrast(116%);
 }
 
-.footer__image-preview img {
+.footer__preview img {
+    margin-top: 6px;
     max-width: 150px;
     max-height: 65px;
 }
 
-.footer__image-preview {
+.footer__preview {
     padding: 5px;
-    height: 75px;
     background-color: #EDEDED;
+}
+
+.footer__replied-message {
+    max-width: 50%;
+    background: #002DE3;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.footer__replied-message-content {
+    background: #375FFF;
+    border-radius: 4px;
+    padding: 8px;
+    border-left: 4px solid white;
+}
+
+.footer__replied-from {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 16px;
+    color: white;
+}
+
+.footer__replied-text {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }

@@ -5,14 +5,40 @@
         var image = document.createElement("img");
         image.src = e.target.result;
 
-        var imagePreview = document.getElementById("footerImagePreview");
+        var footerPreview = document.getElementById("footerPreview");
 
-        var remainingImage = imagePreview.querySelector("img");
+        var remainingImage = footerPreview.querySelector("img");
         if (remainingImage != null)
             remainingImage.remove();
 
-        imagePreview.append(image);
-        imagePreview.style.display = "block";
+        footerPreview.append(image);
+        footerPreview.style.display = "block";
     }
     reader.readAsDataURL(file);
 });
+
+let setFooterReplyState = (display) => {
+
+    var footerPreview = document.getElementById("footerPreview");
+    var remainingImage = footerPreview.querySelector("img");
+
+    if (display) {
+        $(".footer__preview").css("display", "block");
+    }
+    else if (remainingImage == null) {
+        $(".footer__preview").css("display", "none");
+    }
+}
+
+let addMessageToFooterPreview = (username, messageText) =>
+{
+    $('.footer__replied-from').text(username);
+    $('.footer__replied-text').text(messageText);
+    $('.footer__replied-message').css("display", "block");
+}
+
+let deleteMessageFromFooterPreview = () => {
+    $('.footer__replied-from').text('');
+    $('.footer__replied-text').text('');
+    $('.footer__replied-message').css("display", "none");
+}
